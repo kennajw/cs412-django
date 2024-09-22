@@ -5,7 +5,8 @@
         <h1>ayo edebiri quotes</h1>
 
         <div class="image-quote">
-            <img src={{random_image}} alt="">
+            {% load static %}
+            <img src="{% static {{random_image}} %}" alt="">
 
             <p>"{{random_quote}}"</p>
         </div>

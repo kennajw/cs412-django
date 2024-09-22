@@ -15,9 +15,12 @@
         <h1>all quotes and images</h1>
 
         <div class="img-container">
-            <img src={{image1}} alt="">
-            <img src={{image2}} alt="">
-            <img src={{image3}} alt="">
+            {% load static %}
+            <img src="{% static {{image1}} %}" alt="">
+            {% load static %}
+            <img src="{% static {{image2}} %}" alt="">
+            {% load static %}
+            <img src="{% static {{image3}} %}" alt="">
         </div>
 
         <div class="quote-container">
