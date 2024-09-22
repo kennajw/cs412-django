@@ -1,0 +1,22 @@
+<html></html>
+    <head>
+        <title>main</title>
+        <link rel="stylesheet" href="/static/quotestyles.css">
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <!-- <li><a href="{% url 'quote' %}">quotes</a></li> -->
+                <li><a href="{% url 'about' %}">about</a></li>
+                <li><a href="{% url 'show_all' %}">all</a></li>
+            </ul>
+        </nav>
+
+        {% block content %}
+        <!-- fill in this section with specific page detail -->
+        {% endblock %}
+
+        <p>brought to you by kenna wylie.</p>
+    </body>
+</html>

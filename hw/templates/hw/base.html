@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>hello</title>
+        <link rel="stylesheet" href="/static/homestyles.css">
+    </head>
+
+    <body>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About/a></li>
+            </ul>
+        </nav>
+
+        {% block content %}
+        <!-- fill in this section with specific page detail -->
+        {% endblock %}
+
+        <hr>
+        this page was generated at {{current_time}}
+    </body>
+</html>
