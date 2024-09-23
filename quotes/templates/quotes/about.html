@@ -1,23 +1,14 @@
-<html>
-    <head>
-        <title>about</title>
-        <link rel="stylesheet" href="/static/quotestyles.css">
-    </head>
-    <body>
-        <nav>
-            <ul>
-                <li><a href="{% url 'quote' %}">quotes</a></li>
-                <li><a href="{% url 'show_all' %}">all</a></li>
-                <!-- <li><a href="{% url 'about' %}">about</a></li> -->
-            </ul>
-        </nav>
+<!-- quotes/templates/quotes/home.html -->
+{% extends 'quotes/base.html' %}
 
-        <h1>about ayo edebiri</h1>
+{% block content %}
+<h1>about ayo edebiri</h1>
 
-        <div class="bio">
-            <p>Ayo Edebiri is an award-wining Irish actress and comedian known for her roles as Sydney in "The Bear" and Josie in "Bottoms". She is an only child originally from Boston, MA. She has numerous writing credits alongside her acting credits.</p>
-        </div>
+<div class="bio">
+    <p>Ayo Edebiri is an award-wining Irish actress and comedian known for her roles as Sydney in "The Bear" and Josie in "Bottoms". She is an only child originally from Boston, MA. She has numerous writing credits alongside her acting credits.</p>
+</div>
 
-        <p>brought to you by kenna wylie.</p>
-    </body>
-</html>
+<div class="bio">
+    <p>I am Kenna Wylie, the creator of this website, and am a computer science student at Boston University. I created this out of my love for Ayo.</p>
+</div>
+{% endblock %}

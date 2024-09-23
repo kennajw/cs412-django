@@ -6,9 +6,6 @@
     font-family: Neue-Machina-Bold;
     src: url(fonts/PPNeueMachina-InktrapUltraboldItalic.otf);
 }
-.all ul {
-    min-width: 950px;
-}
 body {
     background-color: #3E5C76;
     /* display: flex; */
@@ -39,6 +36,10 @@ ul {
     padding: 10px;
     margin: 10px;
 }
+.img-container img {
+    border-radius: 5px;
+    margin: 5px;
+}
 img {
     width: 300px;
     border-radius: 5px;
@@ -59,20 +60,19 @@ a:visited{
 }
 .img-container {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
     padding: 10px;
     margin: 10px;
     border-radius: 5px;
     background-color: #748CAB;
-    min-width: 950px;
 }
 .quote-container {
     padding: 10px;
     margin: 10px;
     border-radius: 5px;
     background-color: #748CAB;
-    min-width: 950px;
 }
 .bio {
     padding: 10px;

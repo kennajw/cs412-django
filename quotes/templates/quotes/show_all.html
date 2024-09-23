@@ -1,34 +1,21 @@
-<html>
-    <head>
-        <title>all</title>
-        <link rel="stylesheet" href="/static/quotestyles.css">
-    </head>
-    <body>
-        <nav class="all">
-            <ul>
-                <li><a href="{% url 'quote' %}">quotes</a></li>
-                <!-- <li><a href="{% url 'show_all' %}">all</a></li> -->
-                <li><a href="{% url 'about' %}">about</a></li>
-            </ul>
-        </nav>
+<!-- quotes/templates/quotes/home.html -->
+{% extends 'quotes/base.html' %}
 
-        <h1>all quotes and images</h1>
+{% block content %} 
+<h1 class="all">all quotes and images</h1>
 
-        <div class="img-container">
-            {% load static %}
-            <img src="{{image1}}" alt="">
-            {% load static %}
-            <img src="{{image2}}" alt="">
-            {% load static %}
-            <img src="{{image3}}" alt="">
-        </div>
+<div class="img-container">
+    {% load static %}
+    <img src="{{image1}}" alt="">
+    {% load static %}
+    <img src="{{image2}}" alt="">
+    {% load static %}
+    <img src="{{image3}}" alt="">
+</div>
 
-        <div class="quote-container">
-            <p>"{{quote1}}"</p>
-            <p>"{{quote2}}"</p>
-            <p>"{{quote3}}"</p>
-        </div>
-
-        <p>brought to you by kenna wylie.</p>
-    </body>
-</html>
+<div class="quote-container">
+    <p>"{{quote1}}"</p>
+    <p>"{{quote2}}"</p>
+    <p>"{{quote3}}"</p>
+</div>
+{% endblock %}
