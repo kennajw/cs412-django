@@ -19,6 +19,7 @@ def order(request):
     # specials list and context variable
     specials = ['cold water', 'room temp. water', 'warm water']
 
+    # context variables
     context = {
          'special' : specials[random.randint(0,2)],
     }
@@ -37,6 +38,7 @@ def submit(request):
             order = request.POST.getlist('order')
             total = 0
 
+            # sum the total of items
             for item in order:
                 if item == "chicken tikka masala":
                     total = 13 + total
@@ -54,7 +56,7 @@ def submit(request):
             phone = request.POST['phone']
             email = request.POST['email']
 
-            # package the form ddata up as context variables for the template
+            # package the form data up as context variables for the template
             context = {
                 'name' : name,
                 'phone' : phone,
@@ -66,13 +68,5 @@ def submit(request):
 
             return render(request, template_name, context)
         
-        ## handle GET request on this URL
-        # an "ok" solution...
-        # return HttpResponse("Nope.")
-
-        ## a "better" solution...
-        # template_name = "formdata/form.html"
-        # return render(request, template_name)
-        
-        # an even better solution: redirect to the correct URL:
+        # redirect to the correct URL:
         return redirect("order")

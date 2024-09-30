@@ -5,16 +5,19 @@
 
  {% block content %}
 
+ <!-- display order confirmation -->
  <div>
     <h1>order confimation!</h1>
 
     <p>thank you so much for your order, {{name}}!</p>
 
+    <!-- estimated ready time -->
     <div class="form">
         <h2>your order will be ready at:</h2>
         <p>{{est_time}}</p>
     </div>
 
+    <!-- order details -->
     <div class="form">
         <h2>order details:</h2>
         <ul class="order">
@@ -24,18 +27,18 @@
         </ul>
     </div>
 
+    <!-- total price -->
     <div class="form">
         <h2>total: ${{total}}</h2>
     </div>
 
+    <!-- customer info -->
     <div class="form">
         <h2>customer info:</h2>
         <p>{{name}}</p>
         <p>{{phone}}</p>
         <p>{{email}}</p>
     </div>
-
-
  </div>
 
  {% endblock %}

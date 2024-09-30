@@ -1,3 +1,4 @@
+/* styles for restaurant web page */
 @font-face {
     font-family: Neue-Machina;
     src: url(fonts/PPNeueMachina-InktrapRegularItalic.otf);
@@ -21,10 +22,15 @@ body {
     font-family: 'Neue-Machina-Bold';
     text-align: center;
 }
-.check {
-    display: flex;
-    flex-direction: column;
-    max-width: max-content;
+.submit_button {
+    font-size: 28px;
+    background-color: #FCD29F;
+    color: #FCEFEF;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Neue-Machina-Bold';
 }
 .button_wrapper {
     display: flex;
