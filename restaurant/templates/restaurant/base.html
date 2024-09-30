@@ -1,0 +1,28 @@
+<!-- restaurant/base.html
+ creates a base for all the subsequent pages to extend from -->
+
+<html>
+    <head>
+        <title>punjab palace</title>
+        <link rel="stylesheet" href="/static/restaurantstyles.css">
+    </head>
+
+    <body>
+        <div class="main">
+            <h1 class="maintitle">punjab palace</h1>
+        </div>
+
+        <nav>
+            <ul class="nav">
+                <li><a href="{% url 'main' %}">main page</a></li>
+                <li><a href="{% url 'order' %}">order</a></li>
+            </ul>
+        </nav>
+
+        {% block content %}
+        <!-- fill in this section with specific page detail -->
+        {% endblock %}
+
+        <p>brought to you by kenna wylie!</p>
+    </body>
+</html>

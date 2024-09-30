@@ -1,0 +1,41 @@
+<!-- restaurant/confirmation.html
+ show a response to the form submission -->
+
+ {% extends 'restaurant/base.html' %}
+
+ {% block content %}
+
+ <div>
+    <h1>order confimation!</h1>
+
+    <p>thank you so much for your order, {{name}}!</p>
+
+    <div class="form">
+        <h2>your order will be ready at:</h2>
+        <p>{{est_time}}</p>
+    </div>
+
+    <div class="form">
+        <h2>order details:</h2>
+        <ul class="order">
+            {% for item in order %}
+            <li>{{item}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="form">
+        <h2>total: ${{total}}</h2>
+    </div>
+
+    <div class="form">
+        <h2>customer info:</h2>
+        <p>{{name}}</p>
+        <p>{{phone}}</p>
+        <p>{{email}}</p>
+    </div>
+
+
+ </div>
+
+ {% endblock %}

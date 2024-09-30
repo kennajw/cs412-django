@@ -1,0 +1,35 @@
+<!-- restaurant/main.html
+ show a response to the form submission -->
+
+ {% extends 'restaurant/base.html' %}
+
+ {% block content %}
+
+ <div>
+    <h1>welcome!</h1>
+
+    <div class="img-container">
+        <img src="/static/images/punjab-palace.jpg" alt="punjab palace storefront">
+    </div>
+
+    <div class="row">
+        <div class="form">
+            <h2>hours:</h2>
+            <ul class="hours">
+                <li>Mon-Fri: 11AM-3PM, 4:30PM-11PM</li>
+                <li>Sat: 11AM-11PM</li>
+                <li>Sun: 11AM-10:45PM</li>
+            </ul>
+        </div>
+        <div class="form">
+            <h2>location:</h2>
+            <p>109 Brighton Ave, Boston, MA 02134</p>
+        </div>
+        <div class="form">
+            <h2>about:</h2>
+            <p>Classic North Indian meals with spicy options in a spare space with a screen for Bollywood films.</p>
+        </div>
+    </div>
+ </div>
+
+ {% endblock %}
