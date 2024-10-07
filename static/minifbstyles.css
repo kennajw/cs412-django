@@ -1,0 +1,81 @@
+/* font imports */
+@font-face {
+    font-family: Neue-Machina;
+    src: url(fonts/PPNeueMachina-InktrapRegularItalic.otf);
+}
+@font-face {
+    font-family: Neue-Machina-Bold;
+    src: url(fonts/PPNeueMachina-InktrapUltraboldItalic.otf);
+}
+/* styling */
+body {
+    margin: 30px;
+    background: #CC444B;
+    font-family:'Neue-Machina';
+}
+h1 {
+    color: #E4B1AB;
+    font-family: 'Neue-Machina-Bold';
+    text-align: center;
+}
+.head {
+    text-align: center;
+    padding: 5px;
+}
+h2, h3 {
+    color: #E4B1AB;
+    text-align: center;
+}
+p {
+    color: #E39695;
+    text-align: center;
+}
+.grid-container {
+    background: #DA5552;
+    border-radius: 8px;
+    max-width: 900px;
+    display: grid;
+    /* grid-template-columns: 300px 300px 300px; */
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+profile.featured {
+    grid-column: span 3;
+    display: grid; /* nested grid */
+    gap: 60px;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    border-bottom: 1px #bbc7c7;
+    padding-bottom: 40px;
+}
+
+profile img, profile.featured img {
+    width: 100%;
+    border-radius: 8px;
+}
+profile p, profile h3 {
+    margin: 20px 10px;
+
+}
+/* responsive styles: adapt to smaller screen sizes */
+@media screen and (max-width: 980px) {
+
+    profile {
+        grid-column: span 3;
+        display: grid; /* nested grid */
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 30px;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 760px) {
+
+    profile, profile.featured {
+        
+        display: block; 
+        margin: 0px 20px;
+    }
+}

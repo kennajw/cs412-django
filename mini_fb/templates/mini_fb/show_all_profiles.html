@@ -1,0 +1,27 @@
+<!-- mini_fb/templates/mini_fb/show_all_profiles.html -->
+{% extends 'mini_fb/base.html' %}
+
+<!-- where content block begins from base.html -->
+{% block content %}
+
+<!-- header for page -->
+<h1 class="head">show all profiles</h1>
+
+<main class="grid-container"> 
+    <!-- loop through all the profiles in admin -->
+    {% for p in profiles %}
+    <profile> 
+        
+        <!-- main profile info -->
+        <h1>{{p.first_name}} {{p.last_name}}</h1>
+        <img src="{{p.profile_pic}}" alt="{{a.profile_pic}}">
+
+        <!-- secondary profile info -->
+        <p>city: {{p.city}}</p>
+        <p>email: {{p.email}}</p>
+ 
+    </profile> <
+    {% endfor %}
+</main> 
+
+{% endblock %}
