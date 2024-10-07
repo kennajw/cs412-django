@@ -31,7 +31,7 @@ p {
     text-align: center;
 }
 .grid-container {
-    background: #DA5552;
+    /* background: #DA5552; */
     border-radius: 8px;
     max-width: 900px;
     display: grid;
@@ -40,6 +40,10 @@ p {
     grid-gap: 10px;
     max-width: 1200px;
     margin: 20px auto;
+}
+profile {
+    background: #DA5552;
+    border-radius: 8px;
 }
 profile.featured {
     grid-column: span 3;
@@ -62,7 +66,9 @@ profile p, profile h3 {
 /* responsive styles: adapt to smaller screen sizes */
 @media screen and (max-width: 980px) {
 
-    profile {
+    profile {    
+        background: #DA5552;
+        border-radius: 8px;
         grid-column: span 3;
         display: grid; /* nested grid */
         grid-template-columns: 1fr 1fr;
@@ -74,7 +80,8 @@ profile p, profile h3 {
 @media screen and (max-width: 760px) {
 
     profile, profile.featured {
-        
+        background: #DA5552;
+        border-radius: 8px;
         display: block; 
         margin: 0px 20px;
     }
