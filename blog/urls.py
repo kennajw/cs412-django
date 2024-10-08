@@ -7,5 +7,7 @@ from . import views
 
 # all of the URLs that are part of this app
 urlpatterns = [
-    path(r'', views.ShowAllView.as_view(), name="show_all"),
+    path(r'show_all', views.ShowAllView.as_view(), name="show_all_articles"),
+    path('',views.RandomArticleView.as_view(), name='random'),
+    path('article/<int:pk>', views.ArticlePageView.as_view(), name='article'),
 ]
