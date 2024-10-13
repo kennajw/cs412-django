@@ -1,5 +1,11 @@
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView
+from django.urls import reverse
+from typing import Any
+from .forms import *
 from .models import *
 import random
 
@@ -27,3 +33,33 @@ class ArticlePageView(DetailView):
     model = Article
     template_name = 'blog/article.html' ## reusing same template!!
     context_object_name = 'article'
+
+class CreateCommentView(CreateView):
+    ''' a view to create a new comment and save it to the database '''
+
+    form_class = CreateCommentForm
+    template_name = "blog/create_comment_form.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        article = Article.objects.get(pk=pk)
+        context['article'] = article
+        return context
+
+    def form_valid(self, form):
+        ''' handle the form submission, need to get the foreign key by
+        attaching the article tothe comment object, can find the article
+        pk in the url (self.kwargs) '''
+        print(form.cleaned_data)
+        article = Article.objects.get(pk=self.kwargs['pk'])
+        form.instance.article = article
+        return super().form_valid(form)
+
+    ## show how the reverse function uses the urls.py to find the URL pattern
+    def get_success_url(self) -> str:
+        ''' return the URL t oredirect after successfully submitting the form '''
+        # return reverse('show_all')
+        return reverse('article', kwargs={'pk': self.kwargs['pk']})
+        ## note: this is not ideal because we are redircted to the main page

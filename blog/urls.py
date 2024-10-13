@@ -10,4 +10,5 @@ urlpatterns = [
     path(r'show_all', views.ShowAllView.as_view(), name="show_all_articles"),
     path('',views.RandomArticleView.as_view(), name='random'),
     path('article/<int:pk>', views.ArticlePageView.as_view(), name='article'),
+    path('article/<int:pk>/create_comment', views.CreateCommentView.as_view(), name='create_comment'),
 ]
