@@ -2,7 +2,7 @@
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
-<h1>create a new status message!</h1>
+<h1>create a new status message for {{profile.first_name}} {{profile.last_name}}!</h1>
 
 <form method="POST">
     {% csrf_token %}
