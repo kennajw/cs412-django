@@ -1,0 +1,36 @@
+<!-- mini_fb/show_profile.html -->
+{% extends 'mini_fb/base.html' %}
+
+<!-- where content block begins from base.html -->
+{% block content %}
+<main class="grid-container">
+    <profile class="individual">
+        <img src="{{profile.profile_pic}}" alt="{{profile.profile_pic}}">
+        
+        <div>
+
+            <h1>{{profile.first_name}} {{profile.last_name}}</h1>
+            <!-- <strong>city: {{profile.city}} email: {{profile.email}}</strong> -->
+            <p>city: {{profile.city}}</p>
+            <p>email: {{profile.email}}</p>
+
+        </div>
+
+        <!-- status messages -->
+        <div class="status">
+            <h2>status messages:</h2>
+            <!-- {{article.get_comments}} -->
+            {% if profile.get_status_messages %}
+                {% for s in profile.get_status_messages %}
+                <div>
+                    <h3>{{s.timestamp}}: {{s.message}}</h3>
+                </div>
+
+                {% endfor %}
+            {% else %}
+                <h3>none</h3>
+            {% endif %}
+        </div>
+    </profile>
+</main>
+{% endblock %}

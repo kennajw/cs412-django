@@ -10,16 +10,18 @@
 <main class="grid-container"> 
     <!-- loop through all the profiles in admin -->
     {% for p in profiles %}
-    <profile> 
-        
-        <!-- main profile info -->
-        <h1>{{p.first_name}} {{p.last_name}}</h1>
-        <img src="{{p.profile_pic}}" alt="{{a.profile_pic}}">
+    <profile>           
+            <!-- main profile info -->
+        <a href="{% url 'show_profile' p.pk %}">  
+            <h1>{{p.first_name}} {{p.last_name}}</h1>
+            <img src="{{p.profile_pic}}" alt="{{a.profile_pic}}">
+        </a>
 
         <!-- secondary profile info -->
-        <p>city: {{p.city}}</p>
-        <p>email: {{p.email}}</p>
- 
+         <div>
+            <p>city: {{p.city}}</p>
+            <p>email: {{p.email}}</p>
+         </div>
     </profile> 
     {% endfor %}
 </main> 

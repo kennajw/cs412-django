@@ -13,3 +13,20 @@ class Profile(models.Model):
     def __str__(self):
         ''' return a string representation of this object '''
         return f'{self.first_name} {self.last_name}\'s Profile'
+    
+    def get_status_messages(self):
+        ''' return a QuerySet of all status messages on this profile '''
+
+        # use the ORM to retrieve comments for which the FK is this article
+        comments = StatusMessage.objects.filter(profile=self).order_by('timestamp')
+        return comments
+
+class StatusMessage(models.Model):
+    ''' encapsulates the status of a user profile on mini-fb '''
+    timestamp = models.DateTimeField(auto_now=True)
+    message = models.TextField(blank=False)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+
+    def __str__(self):
+        ''' return a string representation of this object '''
+        return f'{self.message}'
