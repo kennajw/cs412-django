@@ -30,9 +30,50 @@ p {
     color: #E39695;
     text-align: center;
 }
+.form {
+    background: #DA5552;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+button {
+    background-color: #DA5552;
+    border-radius: 8px;
+    color: #E4B1AB;
+    padding: 10px;
+    display: block;
+    margin: auto;
+    border: none;
+    font-family: 'Neue-Machina';
+    font-size: 28px;
+}
+label {
+    color: #E4B1AB;
+    text-align: center;
+    justify-content: center;
+}
+.button-back {
+    background-color: #DA5552;
+    border-radius: 8px;
+    padding: 1px;
+    display: block;
+
+}
+.button-profile {
+    background-color: #DA5552;
+    border-radius: 8px;
+    padding: 1px;
+    width: 220px;
+    display: block;
+    margin: auto;
+}
+a .status {
+    background-color: #CC444B;
+}
 a {
     text-decoration: none;
     display: grid;
+    color: #E4B1AB;
 }
 .grid-container {
     /* background: #DA5552; */

@@ -1,8 +1,11 @@
-<!-- mini_fb/show_profile.html -->
+<!-- mini_fb/templates/mini_fb/show_profile.html -->
 {% extends 'mini_fb/base.html' %}
 
 <!-- where content block begins from base.html -->
 {% block content %}
+<!-- <div class="button-back">
+    <h3><a href="{% url 'show_all' %}">back</a></h3>
+</div> -->
 <main class="grid-container">
     <profile class="individual">
         <img src="{{profile.profile_pic}}" alt="{{profile.profile_pic}}">
@@ -13,6 +16,8 @@
             <!-- <strong>city: {{profile.city}} email: {{profile.email}}</strong> -->
             <p>city: {{profile.city}}</p>
             <p>email: {{profile.email}}</p>
+
+            <h3><a href="{% url 'create_status' profile.pk %}">create a status message</a></h3>
 
         </div>
 

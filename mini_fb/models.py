@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Profile(models.Model):
@@ -20,6 +21,10 @@ class Profile(models.Model):
         # use the ORM to retrieve comments for which the FK is this article
         comments = StatusMessage.objects.filter(profile=self).order_by('timestamp')
         return comments
+    
+    def get_absolute_url(self):
+        ''' return the URL to redirect after successfully submitting the form '''
+        return reverse('show_profile', kwargs={'pk': self.pk})
 
 class StatusMessage(models.Model):
     ''' encapsulates the status of a user profile on mini-fb '''
