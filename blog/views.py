@@ -63,3 +63,17 @@ class CreateCommentView(CreateView):
         # return reverse('show_all')
         return reverse('article', kwargs={'pk': self.kwargs['pk']})
         ## note: this is not ideal because we are redircted to the main page
+
+class CreateArticleView(CreateView):
+    ''' a view class to create a new article instance '''
+
+    form_class = CreateArticleForm
+    template_name = 'blog/create_article_form.html'
+
+    def form_valid(self, form):
+        ''' this method is called as part of the form processing '''
+
+        print(f'CreateArticleView.form_valid(): form.cleaned_data={form.cleaned_data}')
+
+        # let the superclass do the real work
+        return super().form_valid(form)

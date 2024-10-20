@@ -9,7 +9,12 @@
     {% for a in articles %}
     <article> <!-- was <div> -->
         
-        <img src="{{a.image_url}}" alt="{{a.image_url}}">
+        {% if a.image_file %}
+        <img src="{{a.image_file.url}}" alt="{{a.image_file.url}}">
+        {% else %}
+        no image_file available
+        {% endif %}
+
 
         <div> <!-- added this! -->
             <h2><a href="{% url 'article' a.pk %}">{{a.title}}</a></h2>
