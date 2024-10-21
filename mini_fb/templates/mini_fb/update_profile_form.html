@@ -1,0 +1,30 @@
+<!-- mini_fb/templates/mini_fb/update_profile_form.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+
+<h1>update {{profile.first_name}}'s profile!</h1>
+
+<form method="POST">
+    <!-- talk about CSRF -->
+    {% csrf_token %}
+    <div class="form">    
+        <div>
+            <label for="city">city: </label>
+            {{form.city}}
+        </div>
+    
+        <div>
+            <label for="email">email: </label>
+            {{form.email}}
+        </div>
+    
+        <div>
+            <label for="profile_pic">profile picture url: </label>
+            {{form.profile_pic}}
+        </div>
+    </div>
+
+    <button type="submit">create profile!</button>
+</form>
+{% endblock %}

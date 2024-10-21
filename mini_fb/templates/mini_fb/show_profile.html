@@ -15,8 +15,9 @@
             <h1>{{profile.first_name}} {{profile.last_name}}</h1>
             <!-- <strong>city: {{profile.city}} email: {{profile.email}}</strong> -->
             <p>city: {{profile.city}}</p>
-            <p>email: {{profile.email}}</p>
+            <p>email: {{profile.email}}</p><br>
 
+            <h3><a href="{% url 'update_profile' profile.pk %}">update profile</a></h3>
             <h3><a href="{% url 'create_status' profile.pk %}">create a status message</a></h3>
 
         </div>

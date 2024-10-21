@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse
 from typing import Any
 from .forms import *
@@ -62,3 +62,10 @@ class CreateStatusMessageView(CreateView):
         ''' return the URL to redirect after successfully submitting the form '''
         return reverse('show_profile', kwargs={'pk': self.kwargs['pk']})
         ## note: this is not ideal because we are redircted to the main page
+
+class UpdateProfileView(UpdateView):
+    ''' a view to update an existing profile and save it to the database '''
+
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_fb/update_profile_form.html"
