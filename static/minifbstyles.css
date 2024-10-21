@@ -28,6 +28,8 @@ h1 {
     border-radius: 8px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 .head {
     text-align: center;
