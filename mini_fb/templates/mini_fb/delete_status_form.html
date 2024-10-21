@@ -5,8 +5,8 @@
 
 <h1>delete status message?</h1>
 <h3>{{status.timestamp}}: {{status.message}}</h3>
-{% if s.get_images %}
-    {% for i in s.get_images %}
+{% if status.get_images %}
+    {% for i in status.get_images %}
         <img src='{{i.image.url}}' alt='{{i.image.url}}'>
     {% endfor %}
 {% endif %}
