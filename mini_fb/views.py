@@ -46,6 +46,15 @@ class CreateStatusMessageView(CreateView):
         print(form.cleaned_data)
         profile = Profile.objects.get(pk=self.kwargs['pk'])
         form.instance.profile = profile
+        # save the status message to database
+        sm = form.save()
+        # read the file from the form:
+        files = self.request.FILES.getlist('files')
+        for file in files:
+            image = Image()
+            image.image = file
+            image.message = sm
+            image.save()
         return super().form_valid(form)
 
     ## show how the reverse function uses the urls.py to find the URL pattern

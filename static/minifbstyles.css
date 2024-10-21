@@ -59,13 +59,45 @@ label {
     display: block;
 
 }
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style-type: none;
+    font-size: 20px;
+    font-family: 'Neue-Machina';
+    background-color: #DA5552;
+    border-radius: 5px;
+    padding: 10px;
+}
+a:link {
+    color: #E4B1AB;
+}
+a:visited{
+    color: #E4B1AB;
+}
+.nav_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 .button-profile {
+    display: flex;
+    text-align: center;
+    justify-content: center;
     background-color: #DA5552;
     border-radius: 8px;
     padding: 1px;
     width: 220px;
-    display: block;
-    margin: auto;
+}
+.button-all {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: #DA5552;
+    border-radius: 8px;
+    padding: 1px;
+    width: 130px;
 }
 a .status {
     background-color: #CC444B;

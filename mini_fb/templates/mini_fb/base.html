@@ -7,9 +7,20 @@
         <link rel="stylesheet" href="/static/minifbstyles.css">
     </head>
     <body>
-        <div class="button-profile">
-            <h3><a href="{% url 'create_profile' %}">create a new profile!</a></h3>
-        </div>
+        <!-- <div class="nav-container">
+            <div class="button-profile">
+                <h3><a href="{% url 'create_profile' %}">create a new profile!</a></h3>
+            </div>
+            <div class="button-all">
+                <h3><a href="{% url 'show_all' %}">all profiles</a></h3>
+            </div>
+        </div> -->
+        <nav>
+            <ul>
+                <li><a href="{% url 'show_all' %}">all profiles</a></li>
+                <li><a href="{% url 'create_profile' %}">create a new profile!</a></li>
+            </ul>
+        </nav>
 
         {% block content %}
 

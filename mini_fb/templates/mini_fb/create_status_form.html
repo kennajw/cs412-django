@@ -4,13 +4,17 @@
 {% block content %}
 <h1>create a new status message for {{profile.first_name}} {{profile.last_name}}!</h1>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div class="form">
         <div>
             <label for="message">message: </label>
             {{form.message}}
+        </div>
+        <div>
+            <label for="id_image">image:</label>
+            <input type="file" name="files" multiple>
         </div>
     </div>
 
