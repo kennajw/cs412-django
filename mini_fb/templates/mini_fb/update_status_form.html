@@ -1,0 +1,21 @@
+<!-- mini_fb/templates/mini_fb/update_status_form.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+
+<h1>update status message!</h1>
+
+<form method="POST">
+    <!-- talk about CSRF -->
+    {% csrf_token %}
+        <div>
+            <label for="message">message: </label>
+            {{form.message}}
+        </div>
+    </div>
+
+    <form action="{% url 'show_profile' status.profile.pk %}">
+        <button type="submit">update status message!</button>
+    </form>
+</form>
+{% endblock %}

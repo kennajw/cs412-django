@@ -35,6 +35,10 @@
                             <img src='{{i.image.url}}' alt='{{i.image.url}}'>
                         {% endfor %}
                     {% endif %}
+                    <div class="status-options">
+                        <p><a href="{% url 'update_status' s.pk %}">update</a></p>
+                        <p><a href="{% url 'delete_status' s.pk %}">delete</a></p>
+                    </div>
                 </div>
 
                 {% endfor %}

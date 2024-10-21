@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from typing import Any
 from .forms import *
@@ -69,3 +69,31 @@ class UpdateProfileView(UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_fb/update_profile_form.html"
+
+class DeleteStatussMessageView(DeleteView):
+    ''' a view to delete an existing status message in the database '''
+
+    model = StatusMessage
+    template_name = 'mini_fb/delete_status_form.html'
+    context_object_name = 'status'
+
+    def get_success_url(self) -> str:
+        ''' return the URL to redirect after successfully submitting the form '''
+
+        profile = self.object.profile
+        return reverse('show_profile', kwargs={'pk': profile.pk})
+        ## note: this is not ideal because we are redircted to the main page
+
+class UpdateStatusMessageView(UpdateView):
+    ''' a view to update an existing status message and save it to the database '''
+
+    model = StatusMessage
+    form_class = UpdateStatusForm
+    context_object_name = 'status'
+    template_name = 'mini_fb/update_status_form.html'
+
+    def get_success_url(self) -> str:
+        ''' return the URL to redirect after successfully submitting the form '''
+
+        profile = self.object.profile
+        return reverse('show_profile', kwargs={'pk': profile.pk})

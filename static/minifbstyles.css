@@ -18,6 +18,11 @@ h1 {
     font-family: 'Neue-Machina-Bold';
     text-align: center;
 }
+.status-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 .head {
     text-align: center;
     padding: 5px;
@@ -52,12 +57,17 @@ label {
     text-align: center;
     justify-content: center;
 }
-.button-back {
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.button {
     background-color: #DA5552;
     border-radius: 8px;
-    padding: 1px;
+    padding: 5px;
+    margin: 5px;
     display: block;
-
 }
 ul {
     display: flex;
@@ -75,29 +85,6 @@ a:link {
 }
 a:visited{
     color: #E4B1AB;
-}
-.nav_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-.button-profile {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    background-color: #DA5552;
-    border-radius: 8px;
-    padding: 1px;
-    width: 220px;
-}
-.button-all {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    background-color: #DA5552;
-    border-radius: 8px;
-    padding: 1px;
-    width: 130px;
 }
 a .status {
     background-color: #CC444B;

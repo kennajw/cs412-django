@@ -24,3 +24,11 @@ class UpdateProfileForm(forms.ModelForm):
         ''' associate this form with the profile model; select fields '''
         model = Profile
         fields = ['city', 'email', 'profile_pic']
+
+class UpdateStatusForm(forms.ModelForm):
+    ''' a form to update an existing status message in the database '''
+
+    class Meta:
+        ''' associate this form with the status message model; select fields '''
+        model = StatusMessage
+        fields = ['message']
