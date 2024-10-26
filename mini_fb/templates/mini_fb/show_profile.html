@@ -19,31 +19,45 @@
 
             <h3><a href="{% url 'update_profile' profile.pk %}">update profile</a></h3>
             <h3><a href="{% url 'create_status' profile.pk %}">create a status message</a></h3>
+            <h3><a href="{% url 'friend_suggestions' profile.pk %}">friend suggestions</a></h3>
 
         </div>
 
         <!-- status messages -->
-        <div class="status">
-            <h2>status messages:</h2>
-            <!-- {{article.get_comments}} -->
-            {% if profile.get_status_messages %}
-                {% for s in profile.get_status_messages %}
-                <div>
-                    <h3>{{s.timestamp}}: {{s.message}}</h3>
-                    {% if s.get_images %}
-                        {% for i in s.get_images %}
-                            <img src='{{i.image.url}}' alt='{{i.image.url}}'>
-                        {% endfor %}
-                    {% endif %}
-                    <div class="status-options">
-                        <p><a href="{% url 'update_status' s.pk %}">update</a></p>
-                        <p><a href="{% url 'delete_status' s.pk %}">delete</a></p>
+        <div class="stat-friends-container">
+            <div class="status">
+                <h2>status messages:</h2>
+                <!-- {{article.get_comments}} -->
+                {% if profile.get_status_messages %}
+                    {% for s in profile.get_status_messages %}
+                    <div>
+                        <h3>{{s.timestamp}}: {{s.message}}</h3>
+                        {% if s.get_images %}
+                            {% for i in s.get_images %}
+                                <img src='{{i.image.url}}' alt='{{i.image.url}}'>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="status-options">
+                            <p><a href="{% url 'update_status' s.pk %}">update</a></p>
+                            <p><a href="{% url 'delete_status' s.pk %}">delete</a></p>
+                        </div>
                     </div>
-                </div>
-
-                {% endfor %}
-            {% else %}
-                <h3>none</h3>
+    
+                    {% endfor %}
+                {% else %}
+                    <h3>none</h3>
+                {% endif %}
+            </div>
+        </div>
+        <div class="status">
+            {% if profile.get_friends %}
+                <h2>{{profile.first_name}}'s friends:</h2>
+                {% for friend in profile.get_friends %}
+                    <div class="friend">
+                        <a href="{% url 'show_profile' friend.pk %}"><img src="{{friend.profile_pic}}" alt="{{friend.profile_pic}}">
+                        <h3>{{friend.first_name}} {{friend.last_name}}</h3></a>
+                    </div>
+                {% endfor %}            
             {% endif %}
         </div>
     </profile>

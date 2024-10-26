@@ -18,6 +18,10 @@ h1 {
     font-family: 'Neue-Machina-Bold';
     text-align: center;
 }
+.stat-friends-container {
+    display:flex;
+    flex-direction: row;
+}
 .status-options {
     display: flex;
     flex-direction: row;
@@ -113,10 +117,14 @@ a {
     max-width: 1200px;
     margin: 20px auto;
 }
+.friend {
+    margin-bottom: 10px;
+}
 .status {
     display: grid;
     background: #CC444B;
     border-radius: 8px;
+    justify-content: center;
 }
 profile {
     background: #DA5552;

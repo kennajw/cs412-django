@@ -1,5 +1,7 @@
+from django.http import HttpRequest
+from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from typing import Any
@@ -97,3 +99,26 @@ class UpdateStatusMessageView(UpdateView):
 
         profile = self.object.profile
         return reverse('show_profile', kwargs={'pk': profile.pk})
+
+class CreateFriendView(View):
+    ''' a view to create a friend relation between two profiles '''
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' override dispatch method '''
+
+        pk = self.kwargs['pk']
+        otherpk = self.kwargs['other_pk']
+
+        profile1 = Profile.objects.get(pk=pk)
+        profile2 = Profile.objects.get(pk=otherpk)
+
+        profile1.add_friend(profile2)
+
+        return super().dispatch(request, *args, **kwargs)
+    
+class ShowFriendSuggestionsView(DetailView):
+    ''' show the details for friend suggestions for a profile '''
+
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html' 
+    context_object_name = 'profile'
