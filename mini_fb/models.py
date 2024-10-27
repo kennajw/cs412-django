@@ -75,7 +75,7 @@ class Profile(models.Model):
             statfriends = statfriends | StatusMessage.objects.filter(profile=friend)
         
         stat = statself | statfriends
-        stat = stat.order_by('timestamp')
+        stat = stat.order_by('-timestamp')
 
         return stat
 
