@@ -63,6 +63,22 @@ class Profile(models.Model):
                 suggestions.append(suggestion)
         
         return suggestions
+
+    def get_news_feed(self):
+        ''' return a list of status messages of the profile and friends' profiles '''
+
+        friends = self.get_friends()
+        statself = StatusMessage.objects.filter(profile=self)
+        statfriends = StatusMessage.objects.none()
+
+        for friend in friends:
+            statfriends = statfriends | StatusMessage.objects.filter(profile=friend)
+        
+        stat = statself | statfriends
+        stat = stat.order_by('timestamp')
+
+        return stat
+
     
     def get_absolute_url(self):
         ''' return the URL to redirect after successfully submitting the form '''

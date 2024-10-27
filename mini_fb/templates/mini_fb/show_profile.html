@@ -20,7 +20,7 @@
             <h3><a href="{% url 'update_profile' profile.pk %}">update profile</a></h3>
             <h3><a href="{% url 'create_status' profile.pk %}">create a status message</a></h3>
             <h3><a href="{% url 'friend_suggestions' profile.pk %}">friend suggestions</a></h3>
-
+            <h3><a href="{% url 'news_feed' profile.pk %}">news feed</a></h3>
         </div>
 
         <!-- status messages -->
@@ -42,7 +42,6 @@
                             <p><a href="{% url 'delete_status' s.pk %}">delete</a></p>
                         </div>
                     </div>
-    
                     {% endfor %}
                 {% else %}
                     <h3>none</h3>

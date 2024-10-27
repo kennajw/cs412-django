@@ -14,6 +14,8 @@
             <a href="{% url 'add_friend' profile.pk suggestion.pk %}"><h3>add friend</h3></a>
         </profile>
     {% endfor %}
+{% else %}
+    <h1>no suggestions</h1>
 {% endif %}
 
 {% endblock %}

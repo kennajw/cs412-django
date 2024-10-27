@@ -1,0 +1,29 @@
+<!-- mini_fb/templates/mini_fb/friend_suggestions.html -->
+{% extends 'mini_fb/base.html' %}
+
+<!-- where content block begins from base.html -->
+{% block content %}
+
+<h1>news feed:</h1>
+
+<div class="status">
+    {% if profile.get_news_feed %}
+        {% for s in profile.get_news_feed %}
+        <div>
+            <h3><img src="{{s.profile.profile_pic}}" alt="{{s.profile.profile_pic}}" class="news-pic"><b> {{s.profile.first_name}} {{s.profile.last_name}}</b>: {{s.timestamp}}: {{s.message}}</h3>
+            {% if s.get_images %}
+                {% for i in s.get_images %}
+                <div class="news">
+                    <img src='{{i.image.url}}' alt='{{i.image.url}}'>
+                </div>
+                <br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <h3>none</h3>
+    {% endif %}
+</div>
+
+{% endblock %}
