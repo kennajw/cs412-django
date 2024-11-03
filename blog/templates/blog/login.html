@@ -1,0 +1,20 @@
+<!-- blog/templates/blog/login.html -->
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<h2>login</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <!-- talk about CSRF -->
+    {% csrf_token %}
+    {{form}}
+    
+    <input type="submit" name="submit" value="login">
+    {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% else %}
+        <input type="hidden" name="next" value="{% url 'show_all_articles' %}">
+    {% endif %}
+</form>
+{% endblock %}

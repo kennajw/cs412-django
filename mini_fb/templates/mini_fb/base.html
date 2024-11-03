@@ -18,9 +18,23 @@
         <nav>
             <ul>
                 <li><a href="{% url 'show_all' %}">all profiles</a></li>
-                <li><a href="{% url 'create_profile' %}">create a new profile!</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'create_profile' %}">create a new profile!</a></li>
+                    <li><a href="{% url 'logout' %}">logout</a></li>
+                <!-- this url should show when not logged in -->
+                {% else %}
+                        <li><a href="{% url 'login' %}">login</a></li>
+                {% endif %}
             </ul>
         </nav>
+        
+        <p>
+            {% if request.user.is_authenticated %}
+                {{request.user}} is logged in
+            {% else %}
+                not logged in
+            {% endif %}
+        </p>
 
         {% block content %}
 

@@ -1,9 +1,12 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Article(models.Model):
     ''' encapsulate the idea of on article by some author '''
+    #every article has one user:
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # data attributes of an article
     title = models.TextField(blank=False)
     author = models.TextField(blank=False)

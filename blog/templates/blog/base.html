@@ -8,10 +8,25 @@
     <body>
         <nav>
             <ul>
+                <!-- these urls do not depend on which user is logged in -->
                 <li><a href="{% url 'show_all_articles' %}">show all</a></li>
                 <li><a href="{% url 'random' %}">random</a></li>
-                <li><a href="{% url 'create_article' %}">create new article</a></li>
+                <!-- this url requires a logged in user -->
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'create_article' %}">create new article</a></li>
+                    <li><a href="{% url 'logout' %}">logout</a></li>
+                <!-- this url should show when not logged in -->
+                {% else %}
+                    <li><a href="{% url 'login' %}">login</a></li>
+                {% endif %}
             </ul>
+            <p>
+                {% if request.user.is_authenticated %}
+                    {{request.user}} is logged in
+                {% else %}
+                    not logged in
+                {% endif %}
+            </p>
         </nav>
         {% block content %}
 

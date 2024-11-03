@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from typing import Any
 from .forms import *
 from .models import *
@@ -22,13 +23,13 @@ class ShowProfilePageView(DetailView):
     template_name = 'mini_fb/show_profile.html' ## reusing same template!!
     context_object_name = 'profile'
 
-class CreateProfileView(CreateView):
+class CreateProfileView(LoginRequiredMixin, CreateView):
     ''' a view to create a new profile and save it to the database '''
 
     form_class = CreateProfileForm
     template_name = "mini_fb/create_profile_form.html"
 
-class CreateStatusMessageView(CreateView):
+class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     ''' a view to create a new status message and save it to the database '''
     form_class = CreateStatusMessageForm
     template_name = "mini_fb/create_status_form.html"
@@ -65,14 +66,14 @@ class CreateStatusMessageView(CreateView):
         return reverse('show_profile', kwargs={'pk': self.kwargs['pk']})
         ## note: this is not ideal because we are redircted to the main page
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     ''' a view to update an existing profile and save it to the database '''
 
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_fb/update_profile_form.html"
 
-class DeleteStatussMessageView(DeleteView):
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     ''' a view to delete an existing status message in the database '''
 
     model = StatusMessage
@@ -84,9 +85,8 @@ class DeleteStatussMessageView(DeleteView):
 
         profile = self.object.profile
         return reverse('show_profile', kwargs={'pk': profile.pk})
-        ## note: this is not ideal because we are redircted to the main page
 
-class UpdateStatusMessageView(UpdateView):
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     ''' a view to update an existing status message and save it to the database '''
 
     model = StatusMessage
