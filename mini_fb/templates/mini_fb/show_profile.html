@@ -18,10 +18,10 @@
             <p>email: {{profile.email}}</p><br>
 
             {% if request.user.is_authenticated and profile.user == user %}
-                <h3><a href="{% url 'update_profile' profile.pk %}">update profile</a></h3>
-                <h3><a href="{% url 'create_status' profile.pk %}">create a status message</a></h3>
-                <h3><a href="{% url 'friend_suggestions' profile.pk %}">friend suggestions</a></h3>
-                <h3><a href="{% url 'news_feed' profile.pk %}">news feed</a></h3>
+                <h3><a href="{% url 'update_profile' %}">update profile</a></h3>
+                <h3><a href="{% url 'create_status' %}">create a status message</a></h3>
+                <h3><a href="{% url 'friend_suggestions' %}">friend suggestions</a></h3>
+                <h3><a href="{% url 'news_feed' %}">news feed</a></h3>
             {% else %}
                 <p></p>
             {% endif %}

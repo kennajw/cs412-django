@@ -1,3 +1,5 @@
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
@@ -5,6 +7,7 @@ from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from typing import Any
 from .forms import *
 from .models import *
@@ -36,18 +39,26 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ''' build the dict of context data for this view '''
+
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
+        pk = self.get_object().pk
         profile = Profile.objects.get(pk=pk)
         context['profile'] = profile
         return context
+    
+    def get_object(self):
+        ''' return Profile of the user associated with it '''
+
+        curr_user = self.request.user
+        profile = Profile.objects.get(user=curr_user)
+        return profile
 
     def form_valid(self, form):
         ''' handle the form submission, need to get the foreign key by
         attaching the profile to the status message object, can find the profile
         pk in the url (self.kwargs) '''
         print(form.cleaned_data)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_object()
         form.instance.profile = profile
         # save the status message to database
         sm = form.save()
@@ -63,7 +74,8 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     ## show how the reverse function uses the urls.py to find the URL pattern
     def get_success_url(self) -> str:
         ''' return the URL to redirect after successfully submitting the form '''
-        return reverse('show_profile', kwargs={'pk': self.kwargs['pk']})
+
+        return reverse('show_profile', kwargs={'pk': self.get_object().pk})
         ## note: this is not ideal because we are redircted to the main page
 
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
@@ -72,6 +84,13 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_fb/update_profile_form.html"
+
+    def get_object(self):
+        ''' return Profile of the user associated with it '''
+
+        curr_user = self.request.user
+        profile = Profile.objects.get(user=curr_user)
+        return profile
 
 class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     ''' a view to delete an existing status message in the database '''
@@ -103,10 +122,17 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
 class CreateFriendView(View):
     ''' a view to create a friend relation between two profiles '''
 
+    def get_object(self):
+        ''' return Profile of the user associated with it '''
+
+        curr_user = self.request.user
+        profile = Profile.objects.get(user=curr_user)
+        return profile
+
     def dispatch(self, request, *args, **kwargs):
         ''' override dispatch method '''
 
-        pk = self.kwargs['pk']
+        pk = self.get_object().pk
         otherpk = self.kwargs['other_pk']
 
         profile1 = Profile.objects.get(pk=pk)
@@ -114,7 +140,7 @@ class CreateFriendView(View):
 
         profile1.add_friend(profile2)
 
-        return super().dispatch(request, *args, **kwargs)
+        return redirect('show_profile', pk=pk)
     
 class ShowFriendSuggestionsView(DetailView):
     ''' show the details for friend suggestions for a profile '''
@@ -123,8 +149,22 @@ class ShowFriendSuggestionsView(DetailView):
     template_name = 'mini_fb/friend_suggestions.html' 
     context_object_name = 'profile'
 
+    def get_object(self):
+        ''' return Profile of the user associated with it '''
+
+        curr_user = self.request.user
+        profile = Profile.objects.get(user=curr_user)
+        return profile
+
 class ShowNewsFeedView(DetailView):
     ''' show the details for one profile '''
     model = Profile
     template_name = 'mini_fb/news_feed.html' ## reusing same template!!
     context_object_name = 'profile'
+
+    def get_object(self):
+        ''' return Profile of the user associated with it '''
+
+        curr_user = self.request.user
+        profile = Profile.objects.get(user=curr_user)
+        return profile

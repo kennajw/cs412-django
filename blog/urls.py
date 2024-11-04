@@ -14,5 +14,5 @@ urlpatterns = [
     path('article/<int:pk>/create_comment', views.CreateCommentView.as_view(), name='create_comment'),
     path(r'create_article', views.CreateArticleView.as_view(), name='create_article'),
     path(r'login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name="login"),
-        path(r'logout/', auth_views.LogoutView.as_view(next_page='show_all_articles'), name="logout"),
+    path(r'logout/', auth_views.LogoutView.as_view(next_page='show_all_articles'), name="logout"),
 ]

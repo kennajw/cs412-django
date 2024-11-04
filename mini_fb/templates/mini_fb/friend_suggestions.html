@@ -11,7 +11,7 @@
         <profile>
             <img src="{{suggestion.profile_pic}}" alt="{{suggestion.profile_pic}}">
             <h2>{{suggestion.first_name}} {{suggestion.last_name}}</h2>
-            <a href="{% url 'add_friend' profile.pk suggestion.pk %}"><h3>add friend</h3></a>
+            <a href="{% url 'add_friend' suggestion.pk %}"><h3>add friend</h3></a>
         </profile>
     {% endfor %}
 {% else %}

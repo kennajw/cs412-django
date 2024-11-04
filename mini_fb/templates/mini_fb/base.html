@@ -27,10 +27,11 @@
                 {% endif %}
             </ul>
         </nav>
-        
+
         <p>
             {% if request.user.is_authenticated %}
                 {{request.user}} is logged in
+                your profile: <a href="{% url 'show_profile' user.profile.pk %}">click here!</a>
             {% else %}
                 not logged in
             {% endif %}
