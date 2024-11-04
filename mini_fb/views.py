@@ -37,6 +37,8 @@ class CreateProfileView(CreateView):
         ''' build the dict of context data for this view '''
 
         context = super().get_context_data(**kwargs)
+
+        # create user_form
         user_form = UserCreationForm()
         context['user_form'] = user_form
         return context
@@ -45,13 +47,16 @@ class CreateProfileView(CreateView):
         ''' handle the form submission, need to get the foreign key by
         attaching the profile to the user object '''
 
+        # user form
         user_form = UserCreationForm(self.request.POST)
         user = user_form.save()
 
         profile = form.instance
         profile.user = user
+        # save profile
         profile.save()
 
+        # return super class
         return super().form_valid(form)
 
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
@@ -94,6 +99,7 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
             image.save()
         return super().form_valid(form)
     
+    # add login url
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('login')
@@ -119,6 +125,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         profile = Profile.objects.get(user=curr_user)
         return profile
     
+    # add login url
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('login')
@@ -136,6 +143,7 @@ class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
         profile = self.object.profile
         return reverse('show_profile', kwargs={'pk': profile.pk})
     
+    # add login url
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('login')
@@ -154,6 +162,7 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
         profile = self.object.profile
         return reverse('show_profile', kwargs={'pk': profile.pk})
     
+    # add login url
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('login')

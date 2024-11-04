@@ -13,10 +13,10 @@
         <div>
 
             <h1>{{profile.first_name}} {{profile.last_name}}</h1>
-            <!-- <strong>city: {{profile.city}} email: {{profile.email}}</strong> -->
             <p>city: {{profile.city}}</p>
             <p>email: {{profile.email}}</p><br>
 
+            <!-- hide profile options if not logged into the user linked to that profile -->
             {% if request.user.is_authenticated and profile.user == user %}
                 <h3><a href="{% url 'update_profile' %}">update profile</a></h3>
                 <h3><a href="{% url 'create_status' %}">create a status message</a></h3>
@@ -43,6 +43,7 @@
                             {% endfor %}
                         {% endif %}
                         <div class="status-options">
+                            <!-- only allow update and delete options if logged into the user linked to that profile -->
                             {% if request.user.is_authenticated and profile.user == user %}
                                 <p><a href="{% url 'update_status' s.pk %}">update</a></p>
                                 <p><a href="{% url 'delete_status' s.pk %}">delete</a></p>

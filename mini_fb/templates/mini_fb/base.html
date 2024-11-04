@@ -7,20 +7,13 @@
         <link rel="stylesheet" href="/static/minifbstyles.css">
     </head>
     <body>
-        <!-- <div class="nav-container">
-            <div class="button-profile">
-                <h3><a href="{% url 'create_profile' %}">create a new profile!</a></h3>
-            </div>
-            <div class="button-all">
-                <h3><a href="{% url 'show_all' %}">all profiles</a></h3>
-            </div>
-        </div> -->
         <nav>
             <ul>
                 <li><a href="{% url 'show_all' %}">all profiles</a></li>
+                <!-- logout button shows when logged in -->
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">logout</a></li>
-                <!-- this url should show when not logged in -->
+                <!-- this urls should show when not logged in -->
                 {% else %}
                     <li><a href="{% url 'create_profile' %}">create a new profile!</a></li>
                     <li><a href="{% url 'login' %}">login</a></li>
@@ -29,9 +22,11 @@
         </nav>
 
         <p>
+            <!-- display user that is logged in and link to profile -->
             {% if request.user.is_authenticated %}
                 {{request.user}} is logged in <br>
                 <a href="{% url 'show_profile' user.profile.pk %}">click here for your profile!</a>
+            <!-- not logged in text -->
             {% else %}
                 not logged in
             {% endif %}
