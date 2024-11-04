@@ -5,6 +5,10 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm ## NEW
+from django.contrib.auth.models import User ## NEW
+from django.contrib.auth import login # NEW
+from django.shortcuts import redirect
 from typing import Any
 from .forms import *
 from .models import *
@@ -95,3 +99,32 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
 
         # let the superclass do the real work
         return super().form_valid(form)
+    
+class RegistrationView(CreateView):
+    ''' show/process form for account registration '''
+
+    template_name = 'blog/register.html'
+    form_class = UserCreationForm
+
+    def dispatch(self, *args, **kwargs):
+        ''' handle the user creation part of the form submission '''
+
+        # handle the post:
+        if self.request.POST:
+            # reconstruct the UserCreationForm from the post data
+            user_form = UserCreationForm(self.request.POST)
+
+            # create the user and login data
+            user = user_form.save()
+            print(f'RegistrationView.form_valid(): created user = {user}')
+
+            # log the user in
+            login(self.request, user)
+            print(f'RegistrationView.form_valid(): user is logged in')
+
+            # for mini_fb: attach the user to the Profile instance object so that it 
+            # can be saved to the database in super().form_valid()
+            return redirect(reverse('show_all'))
+        
+        # get: handled by the super class
+        return super().dispatch(*args, **kwargs)

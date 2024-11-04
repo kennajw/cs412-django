@@ -33,8 +33,24 @@
             <label for="profile_pic">profile picture url: </label>
             {{form.profile_pic}}
         </div>
+
+        <div>
+            <label for="username">username: </label>
+            {{user_form.username}}
+        </div>
+
+        <div>
+            <label for="profile_pic">password: </label>
+            {{user_form.password1}}
+        </div>
+
+        <div>
+            <label for="profile_pic">re-enter password: </label>
+            {{user_form.password2}}
+        </div>
     </div>
 
     <button type="submit">create profile!</button>
 </form>
+
 {% endblock %}

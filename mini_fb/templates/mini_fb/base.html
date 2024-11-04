@@ -19,19 +19,19 @@
             <ul>
                 <li><a href="{% url 'show_all' %}">all profiles</a></li>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'create_profile' %}">create a new profile!</a></li>
                     <li><a href="{% url 'logout' %}">logout</a></li>
                 <!-- this url should show when not logged in -->
                 {% else %}
-                        <li><a href="{% url 'login' %}">login</a></li>
+                    <li><a href="{% url 'create_profile' %}">create a new profile!</a></li>
+                    <li><a href="{% url 'login' %}">login</a></li>
                 {% endif %}
             </ul>
         </nav>
 
         <p>
             {% if request.user.is_authenticated %}
-                {{request.user}} is logged in
-                your profile: <a href="{% url 'show_profile' user.profile.pk %}">click here!</a>
+                {{request.user}} is logged in <br>
+                <a href="{% url 'show_profile' user.profile.pk %}">click here for your profile!</a>
             {% else %}
                 not logged in
             {% endif %}

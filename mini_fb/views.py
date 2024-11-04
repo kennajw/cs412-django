@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from typing import Any
 from .forms import *
@@ -26,14 +27,36 @@ class ShowProfilePageView(DetailView):
     template_name = 'mini_fb/show_profile.html' ## reusing same template!!
     context_object_name = 'profile'
 
-class CreateProfileView(LoginRequiredMixin, CreateView):
+class CreateProfileView(CreateView):
     ''' a view to create a new profile and save it to the database '''
 
     form_class = CreateProfileForm
     template_name = "mini_fb/create_profile_form.html"
 
+    def get_context_data(self, **kwargs: Any):
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        user_form = UserCreationForm()
+        context['user_form'] = user_form
+        return context
+    
+    def form_valid(self, form):
+        ''' handle the form submission, need to get the foreign key by
+        attaching the profile to the user object '''
+
+        user_form = UserCreationForm(self.request.POST)
+        user = user_form.save()
+
+        profile = form.instance
+        profile.user = user
+        profile.save()
+
+        return super().form_valid(form)
+
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     ''' a view to create a new status message and save it to the database '''
+
     form_class = CreateStatusMessageForm
     template_name = "mini_fb/create_status_form.html"
 
@@ -70,6 +93,10 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
             image.message = sm
             image.save()
         return super().form_valid(form)
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('login')
 
     ## show how the reverse function uses the urls.py to find the URL pattern
     def get_success_url(self) -> str:
@@ -91,6 +118,10 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         curr_user = self.request.user
         profile = Profile.objects.get(user=curr_user)
         return profile
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('login')
 
 class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     ''' a view to delete an existing status message in the database '''
@@ -104,6 +135,10 @@ class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
 
         profile = self.object.profile
         return reverse('show_profile', kwargs={'pk': profile.pk})
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('login')
 
 class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     ''' a view to update an existing status message and save it to the database '''
@@ -118,6 +153,10 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
 
         profile = self.object.profile
         return reverse('show_profile', kwargs={'pk': profile.pk})
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('login')
 
 class CreateFriendView(View):
     ''' a view to create a friend relation between two profiles '''
