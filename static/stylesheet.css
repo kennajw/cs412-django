@@ -1,10 +1,10 @@
 body {
-    background-color: lightgrey;
+    background-color: #ffdab9;
   }
   
   h1, h2, h3, footer,header, p {
     font-family: verdana;
-    color: rgb(40, 40, 138);
+    color: #eb7a7a;
   }
   
   /* table, td, th {
@@ -28,7 +28,7 @@ body {
   
   td, th {
     padding: 10px;
-    color: rgb(40, 40, 138);
+    color: #eb7a7a;
     font-family: verdana;
     text-align: left; /* Align text in cells */
   }
@@ -45,7 +45,7 @@ body {
   
   nav ul a, .container{
     font-family: verdana;
-    color: rgb(40, 40, 138);
+    color: #eb7a7a;
     width: 90%;
     max-width: 100px;
     padding: 10px;
@@ -67,7 +67,7 @@ body {
     max-width: 1000px;
     padding: 30px;
     margin: 20px auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px #eb7a7a;
     border-radius: 10px;
     text-align: center;
     transition: max-width 0.3s ease;
@@ -75,7 +75,7 @@ body {
   
   .header-title {
     text-align: center;
-    color: #7599d2;
+    color: #eb7a7a;
     text-decoration: none;
     padding: 10px;
     margin: 10px;
@@ -84,7 +84,7 @@ body {
   h4 a {
     font-family:verdana;
     display: inline-block;
-    color: rgb(40, 40, 138);
+    color: #eb7a7a;
     padding: 10px 20px;
     text-decoration: none;
     background-color: #ccd0d6;
@@ -98,4 +98,8 @@ body {
   .form-table {
     justify-content: center;
     text-align: center;
+  }
+
+  a {
+    color: #eb7a7a;
   }

@@ -78,3 +78,124 @@ class VoterDetailView(DetailView):
     template_name = 'voter_analytics/voter_detail.html'
     model = Voter
     context_object_name = 'v'
+
+class GraphsListView(ListView):
+    ''' view to show a list of graphs displaying voter information '''
+
+    template_name = 'voter_analytics/graphs.html'
+    model = Voter
+    context_object_name = 'v'
+    
+    def get_context_data(self, **kwargs):
+        ''' provide context variables for use in this template '''
+
+        # call super class
+        context =  super().get_context_data(**kwargs)
+        v = context['v']
+
+        # query set of all voters in the db
+        all_voters = Voter.objects.all()
+
+        # voter distribution histogram
+        years = []
+        dist_year = []
+
+        for voter in all_voters:
+            year = voter.dob.year
+
+            # if the year has already been added from a prev. voter
+            if year in years:
+                dist_year[years.index(year)] += 1
+            # else add the year since this is the first voter born in that year
+            else:
+                years.append(year)
+                dist_year.append(1)
+        
+        # total number of voters
+        total_year = sum(dist_year)
+
+        # create the figure
+        fig = go.Figure(data=[go.Bar(x=years, y=dist_year)])
+
+        # create title
+        title = f'voter distribution by birth year (total={total_year})'
+        fig.update_layout(title=title)
+
+        # display the figure
+        graph_birth_year = plotly.offline.plot(fig, auto_open=False, output_type="div")
+
+        # add our graph to the context data
+        context['graph_birth_year'] = graph_birth_year
+
+        # party affiliation pie chart
+        parties = []
+        dist_party = []
+
+        for voter in all_voters:
+            party = voter.party
+
+            # if the party has already been added from a prev. voter
+            if party in parties:
+                dist_party[parties.index(party)] += 1
+            # else add the party since this is the first voter's party
+            else:
+                parties.append(party)
+                dist_party.append(1)
+
+        # total number of voters w/ party affiliations
+        total_party = sum(dist_party)
+
+        # create the figure
+        fig = go.Pie(labels=parties, values=dist_party)
+
+        # create title
+        title_party = f'voter distribution by party affiliation (total={total_party})'
+
+        # display the figure
+        graph_party = plotly.offline.plot({"data": [fig], 
+                                         "layout_title_text": title_party,
+                                         }, 
+                                         auto_open=False, 
+                                         output_type="div")
+
+        # add our graph to the context data
+        context['graph_party'] = graph_party
+        
+                # voter distribution histogram
+        votes = ['v20state', 'v21town', 'v21primary', 'v22general', 'v23town']
+        dist_vote = []
+
+        # collect vote totals for each election
+        v20state = all_voters.filter(v20state='TRUE')
+        v21town = all_voters.filter(v21town='TRUE')
+        v21primary = all_voters.filter(v21primary='TRUE')
+        v22general = all_voters.filter(v22general='TRUE')
+        v23town = all_voters.filter(v23town='TRUE')
+
+        # append totals to distribution
+        dist_vote.append(len(v20state))
+        dist_vote.append(len(v21town))
+        dist_vote.append(len(v21primary))
+        dist_vote.append(len(v22general))
+        dist_vote.append(len(v23town))
+
+        print(dist_vote)
+        
+        # total number of votes
+        total_votes = sum(dist_year)
+
+        # create the figure
+        fig = go.Figure(data=[go.Bar(x=votes, y=dist_vote)])
+
+        # create title
+        title = f'vote counts by election (total={total_votes})'
+        fig.update_layout(title=title)
+
+        # display the figure
+        graph_votes = plotly.offline.plot(fig, auto_open=False, output_type="div")
+
+        # add our graph to the context data
+        context['graph_votes'] = graph_votes
+
+        return context
+        

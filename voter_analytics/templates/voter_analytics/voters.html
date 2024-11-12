@@ -42,7 +42,7 @@
                     </li>
                 {% endif %}
                     <li class="">
-                        <span>{{ page_obj.number }} of {{ page_obj.paginatov.num_pages }}.</span>
+                        <span>page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
                     </li>
                 {% if page_obj.has_next %}
                     <li>
