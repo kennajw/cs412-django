@@ -1,0 +1,1 @@
+https://desolate-coast-54135-0f75cceed39c.herokuapp.com/voter_analytics/voters?v22general=v22general&v23town=v23town
