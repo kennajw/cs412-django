@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container">
-    <h1>Showing Result for {{v.first_name}} {{v.last_name}}</h1>
+    <h1>showing voter info for {{v.first_name}} {{v.last_name}}</h1>
     <table>
         <tr>
             <th>name</th>
@@ -39,5 +39,7 @@
             <td>{{v.v_score}}</td>
         </tr>
     </table>
+
+    <h3>view address: <a href="https://www.google.com/maps/search/?api=1&query={{v.street_num}},{{v.street_name}},{{v.zip}}" target="_blank">{{v.street_num}} {{v.street_name}}, {{v.zip}}</a></h3>
 </div>
 {% endblock %}
