@@ -16,7 +16,7 @@ class Voter(models.Model):
 
     # voter information
     dor = models.DateField()
-    party = models.TextField()
+    party = models.CharField(max_length=2)
     p_num = models.TextField()
 
     # past elections

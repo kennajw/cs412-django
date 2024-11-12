@@ -1,0 +1,43 @@
+<!-- voter_analytics/templates/voter_analytics/voter_detail.html -->
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+
+<div class="container">
+    <h1>Showing Result for {{v.first_name}} {{v.last_name}}</h1>
+    <table>
+        <tr>
+            <th>name</th>
+            <th>street address</th>
+            <th>apt. number (optional)</th>
+            <th>zip code</th>
+            <th>date of birth/th>
+            <th>date of registration</th>
+            <th>party affiliation</th>
+            <th>precinct number</th>
+            <th>v20state</th>
+            <th>v21town</th>
+            <th>v21primary</th>
+            <th>v22general</th>
+            <th>v23town</th>
+            <th>voter score</th>
+        </tr>
+        
+        <tr>
+            <td>{{v.first_name}} {{v.last_name}}</td>
+            <td>{{v.street_num}} {{v.street_name}}</td>
+            <td>{{v.apt_num}}</td>
+            <td>{{v.zip}}</td>
+            <td>{{v.dob}}</td>
+            <td>{{v.dor}}</td>
+            <td>{{v.party}}</td>
+            <td>{{v.p_num}}</td>
+            <td>{{v.v20state}}</td>
+            <td>{{v.v21town}}</td>
+            <td>{{v.v21primary}}</td>
+            <td>{{v.v22general}}</td>
+            <td>{{v.v23town}}</td>
+            <td>{{v.v_score}}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
