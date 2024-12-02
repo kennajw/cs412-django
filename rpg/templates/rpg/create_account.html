@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>create account</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form method="POST">
+            <!-- talk about CSRF -->
+            {% csrf_token %}
+            <div class="form">
+                <div>
+                    <label for="first_name">character name: </label>
+                    {{form.name}}
+                </div>
+            
+                <div>
+                    <label for="last_name">character image: </label>
+                    {{form.img}}
+                </div>
+        
+                <!-- user registration fields -->
+                <div>
+                    <label for="username">username: </label>
+                    {{user_form.username}}
+                </div>
+        
+                <div>
+                    <label for="profile_pic">password: </label>
+                    {{user_form.password1}}
+                </div>
+        
+                <div>
+                    <label for="profile_pic">re-enter password: </label>
+                    {{user_form.password2}}
+                </div>
+            </div>
+        
+            <button type="submit">create character and account!</button>
+        </form>
+    </body>
+</html>

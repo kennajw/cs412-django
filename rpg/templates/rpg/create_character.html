@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>create character</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form method="POST">
+            <!-- talk about CSRF -->
+            {% csrf_token %}
+            <div class="form">
+                <div>
+                    <label for="first_name">character name: </label>
+                    {{form.name}}
+                </div>
+            
+                <div>
+                    <label for="id_image">image:</label>
+                    <input type="file" name="file" multiple>
+                </div>
+            </div>
+        
+            <button type="submit">create character!</button>
+        </form>
+    </body>
+</html>

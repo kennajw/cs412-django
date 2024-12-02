@@ -1,0 +1,28 @@
+<!-- rpg/templates/rpg/character_list.html -->
+
+<html>
+    <head>
+        <title>character list</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1>Choose Your Character</h1>
+
+            {% for c in characters %}
+                {% if request.user.is_authenticated and c.user == user %}
+                    <a href="{% url 'play' %}">
+                        <div class="character-card">
+                            <h2>{{c.name}}</h2>
+                            <img src="{{c.img.url}}" alt="image of your character">
+                            <div class="character-stats">
+                                <h3>level: {{c.level}}</h3>
+                                <h3>hp: {{c.hp}}  mp: {{c.mp}}</h3>
+                                <h3>coins: {{c.coins}}</h3>
+                            </div>
+                        </div>  
+                    </a>
+                {% else %}
+                {% endif %}
+            {% endfor %}
+    </body>
+</html>

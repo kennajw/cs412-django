@@ -1,0 +1,23 @@
+<!-- base for rpg -->
+<!-- rpg/templates/rpg/base.html -->
+{% load static %}
+
+<html>
+    <head>
+        <title>rpg</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">home</a></li>
+                <li><a href="">inventory</a></li>
+                <li><a href="">settings</a></li>
+            </ul>
+        </nav>
+
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>

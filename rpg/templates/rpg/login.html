@@ -1,0 +1,22 @@
+<!-- rpg/templates/rpg/login.html -->
+
+<html>
+    <head>
+        <title>login</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form method="POST" enctype="multipart/form-data">
+            <!-- talk about CSRF -->
+            {% csrf_token %}
+            {{form}}
+            
+            <input type="submit" name="submit" value="login">
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{request.GET.next}}">
+            {% else %}
+                <input type="hidden" name="next" value="{% url 'new_options' %}">
+            {% endif %}
+        </form>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!-- rpg/templates/rpg/menu.html -->
+{% load static %}
+
+<html>
+    <head>
+        <title>home</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div class="button-container-col">
+            <div class="menu-button">
+                <a href="{% url 'create_account' %}">
+                    <h2>new account</h2>
+                </a>
+            </div>
+                <div class="menu-button">
+                    <a href="{% url 'rpglogin' %}">
+                        <h2>login</h2>
+                    </a>
+                </div>
+            <div class="menu-button">
+                <a href="{% url 'play' %}">
+                    <h2>quit</h2>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

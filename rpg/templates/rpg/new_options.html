@@ -1,0 +1,23 @@
+<!-- rpg/templates/rpg/menu.html -->
+{% load static %}
+
+<html>
+    <head>
+        <title>home</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div class="button-container-col">
+            <div class="menu-button">
+                <a href="{% url 'create_character' %}">
+                    <h2>new character</h2>
+                </a>
+            </div>
+            <div class="menu-button">
+                <a href="{% url 'character_list' %}">
+                    <h2>continue...</h2>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>
