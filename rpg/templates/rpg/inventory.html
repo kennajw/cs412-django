@@ -1,0 +1,28 @@
+<!-- rpg/templates/rpg/inventory.html -->
+
+<!-- extend the base we created -->
+{% extends 'rpg/base.html' %}
+
+<!-- begin inventory list page content -->
+{% block content %}
+
+    <!-- title -->
+    <h1>inventory</h1>
+
+    <!-- iterate through all the inventory item objects of all characters -->
+    {% for item in character.get_inventory %}
+        <!-- item card -->
+        <div class="item-card">
+            <div>
+                <h2>{{item.itm.name}}</h2>
+                <img src="{{item.itm.img.url}}" alt="image of {{item.itm.name}}">
+            </div>
+            <div>
+                <h3>{{item.itm.type}}</h3>
+                <h3>qty: {{item.quantity}}</h3>
+            </div>
+            <p>{{item.itm.description}}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

@@ -7,17 +7,21 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        <!-- container for buttons -->
         <div class="button-container-col">
             <div class="menu-button">
+                <!-- create a new account -->
                 <a href="{% url 'create_account' %}">
                     <h2>new account</h2>
                 </a>
             </div>
-                <div class="menu-button">
-                    <a href="{% url 'rpglogin' %}">
-                        <h2>login</h2>
-                    </a>
-                </div>
+            <!-- login to a pre-existing account -->
+            <div class="menu-button">
+                <a href="{% url 'rpglogin' %}">
+                    <h2>login</h2>
+                </a>
+            </div>
+            <!-- quit button to bring you back to the initial play page -->
             <div class="menu-button">
                 <a href="{% url 'play' %}">
                     <h2>quit</h2>

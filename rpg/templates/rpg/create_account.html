@@ -7,7 +7,9 @@
         <form method="POST">
             <!-- talk about CSRF -->
             {% csrf_token %}
+            <!-- form to create a new character and account-->
             <div class="form">
+                <!-- create new character fields -->
                 <div>
                     <label for="first_name">character name: </label>
                     {{form.name}}
@@ -34,7 +36,7 @@
                     {{user_form.password2}}
                 </div>
             </div>
-        
+            <!-- submit details about character and user account (form valid will take care of the rest) -->
             <button type="submit">create character and account!</button>
         </form>
     </body>

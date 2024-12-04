@@ -25,7 +25,7 @@
             <!-- display user that is logged in and link to profile -->
             {% if request.user.is_authenticated %}
                 {{request.user}} is logged in <br>
-                <a href="{% url 'show_profile' user.profile.pk %}">click here for your profile!</a>
+                
             <!-- not logged in text -->
             {% else %}
                 not logged in

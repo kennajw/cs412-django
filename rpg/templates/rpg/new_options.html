@@ -7,12 +7,15 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        <!-- container for buttons -->
         <div class="button-container-col">
+            <!-- create new character button -->
             <div class="menu-button">
                 <a href="{% url 'create_character' %}">
                     <h2>new character</h2>
                 </a>
             </div>
+            <!-- pick a pre-existing character -->
             <div class="menu-button">
                 <a href="{% url 'character_list' %}">
                     <h2>continue...</h2>

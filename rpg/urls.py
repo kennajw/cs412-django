@@ -16,5 +16,7 @@ urlpatterns = [
     path(r'create_character/', views.CreateCharacterView.as_view(), name='create_character'),
     path(r'new_game/', views.NewOptionsView.as_view(), name='new_options'),
     path(r'characters/', views.CharactersView.as_view(), name='character_list'),
-    path(r'home/<int:pk>/', views.HomeView.as_view(), name='home'),
+    path(r'gamehome/<int:pk>/', views.HomeView.as_view(), name='gamehome'),
+    path(r'inventory/<int:pk>/', views.InventoryView.as_view(), name='inventory'),
+    path(r'achievements/<int:pk>', views.AchievementsView.as_view(), name='achievements'),
 ]

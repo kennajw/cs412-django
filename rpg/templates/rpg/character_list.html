@@ -7,10 +7,12 @@
     </head>
     <body>
         <h1>Choose Your Character</h1>
-
+            <!-- loop through characters in the db -->
             {% for c in characters %}
+                <!-- if a character is linked to the current account that is logged in, include it -->
                 {% if request.user.is_authenticated and c.user == user %}
-                    <a href="{% url 'play' %}">
+                    <!-- character card -->
+                    <a href="{% url 'gamehome' c.pk %}">
                         <div class="character-card">
                             <h2>{{c.name}}</h2>
                             <img src="{{c.img.url}}" alt="image of your character">
@@ -21,6 +23,7 @@
                             </div>
                         </div>  
                     </a>
+                <!-- no else needed (just don't include that character card) -->
                 {% else %}
                 {% endif %}
             {% endfor %}

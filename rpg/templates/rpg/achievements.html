@@ -1,0 +1,22 @@
+<!-- rpg/templates/rpg/achievements.html -->
+
+<!-- extend the base we created -->
+{% extends 'rpg/base.html' %}
+
+<!-- begin inventory list page content -->
+{% block content %}
+
+    <!-- title -->
+    <h1>achievements</h1>
+
+    <!-- iterate through all the inventory item objects of all characters -->
+    {% for ach in character.get_achievements %}
+        <!-- item card -->
+        <div class="achievement-card">
+            <div>
+                <h2>{{ach.name}}</h2>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

@@ -71,7 +71,7 @@ class CreateAccountView(CreateView):
         character.save()
 
         # return super class
-        return super().form_valid(form)
+        return redirect('gamehome', pk=character.pk)
     
 class CreateCharacterView(LoginRequiredMixin, CreateView):
     ''' a view to create a new character and save it to the database '''
@@ -100,18 +100,50 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
         character.save()
 
         # return super class
-        return super().form_valid(form)
+        return redirect('gamehome', pk=character.pk)
 
 class CharactersView(LoginRequiredMixin, ListView):
     ''' show the list of characters associated with a user '''
 
     model = Character
-    template_name = 'character_list.html'
+    template_name = 'rpg/character_list.html'
     context_object_name = 'characters'
 
 class HomeView(LoginRequiredMixin, DetailView):
     ''' show the home hub page for the game for a specific chosen character '''
 
     model = Character
-    template_name = 'home.html'
+    template_name = 'rpg/home.html'
     context_object_name = 'character'
+
+class InventoryView(LoginRequiredMixin, ListView):
+    ''' show the list of inventory items that your character has '''
+
+    model = Inventory
+    template_name = 'rpg/inventory.html'
+    context_object_name = 'inventory'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        character = Character.objects.get(pk=pk)
+        context['character'] = character
+        return context
+    
+class AchievementsView(LoginRequiredMixin, ListView):
+    ''' show the list of achievements that your character has completed '''
+
+    model = Achievement
+    template_name = 'rpg/achievements.html'
+    context_object_name = 'achievement'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        character = Character.objects.get(pk=pk)
+        context['character'] = character
+        return context

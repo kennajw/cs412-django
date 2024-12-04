@@ -11,7 +11,9 @@
             {% csrf_token %}
             {{form}}
             
+            <!-- login functionality -->
             <input type="submit" name="submit" value="login">
+            <!-- reroute coniditional -->
             {% if request.GET.next %}
                 <input type="hidden" name="next" value="{{request.GET.next}}">
             {% else %}

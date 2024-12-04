@@ -22,14 +22,30 @@ class Character(models.Model):
     def __str__(self):
         return f'{self.name}'
     
-    def get_characters(self):
-        ''' get the characters associated with a user '''
+    def get_total_exp(self):
+        ''' return the total exp needed before leveling up '''
 
-        # use the ORM to filter the characters associated with that user
-        characters = Character.objects.filter(user=self.request.user)
+        # get current level
+        level = self.level
+        # calculate total exp need
+        exp_needed = level * 100
 
-        # return the queryset of characters
-        return characters
+        #return exp needed
+        return exp_needed
+    
+    def get_inventory(self):
+        ''' return a QuerySet of all inventory items for this character '''
+
+        # use the ORM to retrieve comments for which the FK is this article
+        items = Inventory.objects.filter(char=self)
+        return items 
+    
+    def get_achievements(self):
+        ''' return a QuerySet of all achievements for this character '''
+
+        # use the ORM to retrieve comments for which the FK is this article
+        achievements = Achievement.objects.filter(char=self)
+        return achievements
 
 class Item(models.Model):
     ''' encapsulate the items of a user in the rpg '''
