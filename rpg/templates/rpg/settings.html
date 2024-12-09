@@ -1,0 +1,25 @@
+<!-- rpg/templates/rpg/settings.html -->
+
+<!-- extend the base we created -->
+{% extends 'rpg/base.html' %}
+
+<!-- begin inventory list page content -->
+{% block content %}
+    <div>
+        <div class="button-container">
+            <a href="{% url 'update' character.pk %}">
+                <h2>edit character</h2>
+            </a>
+        </div>
+        <div class="button-container">
+            <a href="{% url 'delete' character.pk %}">
+                <h2>delete character</h2>
+            </a>
+        </div>
+        <div class="button-container">
+            <a href="{% url 'rpglogout' %}">
+                <h2>log out</h2>
+            </a>
+        </div>
+    </div>
+{% endblock %}

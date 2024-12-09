@@ -4,20 +4,20 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <!-- talk about CSRF -->
             {% csrf_token %}
             <!-- form to create a new character and account-->
             <div class="form">
                 <!-- create new character fields -->
                 <div>
-                    <label for="first_name">character name: </label>
+                    <label for="name">character name: </label>
                     {{form.name}}
                 </div>
             
                 <div>
-                    <label for="last_name">character image: </label>
-                    {{form.img}}
+                    <label for="img">character image: </label>
+                    <input type="file" name="img" id="img">
                 </div>
         
                 <!-- user registration fields -->
@@ -27,12 +27,12 @@
                 </div>
         
                 <div>
-                    <label for="profile_pic">password: </label>
+                    <label for="password1">password: </label>
                     {{user_form.password1}}
                 </div>
         
                 <div>
-                    <label for="profile_pic">re-enter password: </label>
+                    <label for="password2">re-enter password: </label>
                     {{user_form.password2}}
                 </div>
             </div>

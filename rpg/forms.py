@@ -8,3 +8,11 @@ class CreateCharacterForm(forms.ModelForm):
         ''' associate this form with the profile model; select fields '''
         model = Character
         fields = ['name', 'img'] 
+
+class UpdateProfileForm(forms.ModelForm):
+    ''' a form to update an existing profile in the database '''
+
+    class Meta:
+        ''' associate this form with the profile model; select fields '''
+        model = Character
+        fields = ['name', 'img']

@@ -1,0 +1,29 @@
+<!-- rpg/templates/rpg/delete.html -->
+{% extends 'rpg/base.html' %}
+
+{% block content %}
+
+<h1>Would you like to delete {{character.name}}?</h1>
+
+<div class="character-card">
+    <h2>{{character.name}}</h2>
+    <img src="{{character.img.url}}" alt="image of your character">
+    <div class="character-stats">
+        <h3>level: {{character.level}}</h3>
+        <h3>hp: {{character.hp}}  mp: {{character.mp}}</h3>
+        <h3>coins: {{character.coins}}</h3>
+        <h3>exp: {{character.exp}}/{{character.get_total_exp}}</h3>
+    </div>
+</div>
+
+<div class="button-container">
+    <form method="post">
+        {% csrf_token %}
+            <button type="submit" class="button">yes</button>
+    </form>
+        
+    <form method="get" action="{% url 'gamehome' character.pk %}">
+        <button type="submit" class="button">no</button>
+    </form>
+</div>
+{% endblock %}

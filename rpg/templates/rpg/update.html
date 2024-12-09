@@ -1,0 +1,25 @@
+<!-- rpg/templates/rpg/update.html -->
+{% extends 'rpg/base.html' %}
+
+{% block content %}
+
+<h1>update {{character.name}}'s info!</h1>
+
+<form method="POST">
+    <!-- talk about CSRF -->
+    {% csrf_token %}
+    <div class="form">    
+        <div>
+            <label for="city">city: </label>
+            {{form.name}}
+        </div>
+    
+        <div>
+            <label for="email">email: </label>
+            {{form.img}}
+        </div>
+    </div>
+
+    <button type="submit">update character!</button>
+</form>
+{% endblock %}
