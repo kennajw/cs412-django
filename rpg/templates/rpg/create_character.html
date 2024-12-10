@@ -1,9 +1,18 @@
 <html>
     <head>
         <title>create character</title>
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="/static/rpg.css">
     </head>
     <body>
+        <!-- parallax stars css divs -->
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+
+        <div>
+            <a href="{% url 'new_options' %}"><h3>back</h3></a>
+        </div>
+
         <form method="POST" enctype="multipart/form-data">
             <!-- talk about CSRF -->
             {% csrf_token %}

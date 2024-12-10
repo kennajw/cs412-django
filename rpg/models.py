@@ -96,6 +96,7 @@ class Achievement(models.Model):
 
     # achievment information
     name = models.TextField(blank=False)
+    timestamp = models.DateTimeField()
 
     # foreign key
     char = models.ForeignKey(Character, on_delete=models.CASCADE)

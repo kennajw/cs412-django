@@ -3,9 +3,14 @@
 <html>
     <head>
         <title>loser</title>
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="/static/rpg.css">
     </head>
     <body>
+        <!-- parallax stars css divs -->
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+
         <h1>You lost the battle</h1>
         <div class="button-container">
             <a href="{% url 'gamehome' character.pk %}"><h2>back to home</h2></a>

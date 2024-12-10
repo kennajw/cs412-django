@@ -16,7 +16,7 @@
     <h3>{{enemy.hp}}/{{enemy.total_hp}}</h3>
 </div>
 
-<div class="player-battle">
+<div class="scrollable">
     <div class="name-img-hp">
         <h2>{{character.name}} - {{character.hp}}/{{character.hp_total}}</h2>
         <img src="{{character.img.url}}" alt="{{character.name}}">
@@ -24,7 +24,7 @@
     <div class="button-container">
         <a href="{% url 'player_attack' character.pk enemy.pk %}"><h2>attack!</h2></a>
     </div>
-    <div class="scrollable-items">
+    <div class="">
         {% for item in character.get_inventory %}
             <a href="{% url 'use_item' character.pk enemy.pk item.pk %}">
                 <div class="item-battle">

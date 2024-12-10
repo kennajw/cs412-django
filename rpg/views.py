@@ -3,15 +3,13 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, View, TemplateView
 from django.db.models.base import Model as Model
-from django.db.models.query import QuerySet
-from django.http import HttpRequest
 from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
+from datetime import datetime
 from typing import Any
 from .forms import *
 from .models import *
@@ -80,6 +78,7 @@ class CreateAccountView(CreateView):
         ach = Achievement()
         ach.name = 'new character created!'
         ach.char = character
+        ach.timestamp = datetime.now()
 
         # save achievement
         ach.save()
@@ -117,6 +116,15 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
 
         # save the character to the db
         character.save()
+
+        # achievement for new character
+        ach = Achievement()
+        ach.name = 'new character created!'
+        ach.char = character
+        ach.timestamp = datetime.now()
+
+        # save achievement
+        ach.save()
 
         # return super class
         # return super().form_valid(form)
@@ -429,20 +437,15 @@ class PlayerAttackView(LoginRequiredMixin, View):
                 ach = Achievement()
                 ach.name = 'first enemy defeated!'
                 ach.char = character
+                ach.timestamp = datetime.now()
 
                 ach.save()
 
-            elif (character.enemies_defeated == 4):
+            elif ((character.enemies_defeated + 1 ) % 5 == 0):
                 ach = Achievement()
-                ach.name = '5th enemy defeated!'
+                ach.name = str(character.enemies_defeated) + ' enemy defeated!'
                 ach.char = character
-
-                ach.save()
-
-            elif (character.enemies_defeated == 9):
-                ach = Achievement()
-                ach.name = '10th enemy defeated!'
-                ach.char = character
+                ach.timestamp = datetime.now()
 
                 ach.save()
                 
@@ -479,9 +482,15 @@ class EnemyAttackView(LoginRequiredMixin, View):
         character.hp = max(character.hp - enemy.attack, 0)
         character.save()
 
+        # if character hp is 0, you lose :(
         if (character.hp == 0):
+            # update the character stats
             character.hp = character.hp_total
             character.save()
+
+            # update the enemy stats
+            enemy.hp = enemy.total_hp
+            enemy.save()
 
             return redirect('lose', pk=c_pk)
         else:
@@ -510,66 +519,93 @@ class UseItemView(LoginRequiredMixin, View):
 
         # conditional to figure out what type of item
         if (item.itm.hp != 0):
+            # heal your character and save
             character.hp = min(character.hp + item.itm.hp, character.hp_total)
             character.save()
 
+            # since each consumable item only has 1 use, just decrease the quanity and save
             item.quantity -= 1
             item.save()
 
+            # create a message saying you healed
             messages.info(request, 'you healed')
 
         elif (item.itm.attack != 0):
+            # attack the enemy and save
             enemy.hp = max(enemy.hp - item.itm.attack, 0)
             enemy.save()
 
+            # subtract from item uses
             item.itm.uses -= 1
             item.itm.save()
 
+            # if the item uses is 0, that means the weapon has broken so we must decrease the quantity
             if (item.itm.uses == 0):
+                # decrease the quantity and save
                 item.quantity -= 1
                 item.save()
 
-            messages.info(request, 'you dealt', enemy.attack, 'damage')
+            # create a message for damage dealt
+            message_string = 'you dealt ' + str(enemy.attack) + ' damage'
+            messages.info(request, message_string)
         
+        # if the quantity is 0, delete the object from the database
         if (item.quantity == 0):
             item.delete()
         
+        # if enemy hp is 0, then you have won! update accordingly
         if (enemy.hp == 0):
+            # if reward exp is over the level up threshold, level the character up and readjust
             if ((character.exp + enemy.exp_reward) >= character.get_total_exp()):
                 character.exp = (character.exp + enemy.exp_reward) - character.get_total_exp()
                 character.level += 1
+                character.hp_total += 10
+            # else, just add the reward exp onto current exp
             else:
                 character.exp += enemy.exp_reward
 
+            # add reward coins to character's coins
             character.coins += enemy.coin_reward
 
+            # if this is the first enemy defeated, create a new achievement
             if (character.enemies_defeated == 0):
+                # create a new achievement model
                 ach = Achievement()
+
+                # fill the fields with data
                 ach.name = 'first enemy defeated!'
                 ach.char = character
+                ach.timestamp = datetime.now()
 
+                # save the achievement
                 ach.save()
 
-            elif (character.enemies_defeated == 4):
+            # create a new achievement for every 5 enemies defeated
+            elif ((character.enemies_defeated + 1 ) % 5 == 0):
+                # create a new achievement model
                 ach = Achievement()
-                ach.name = '5th enemy defeated!'
-                ach.char = character
 
+                # fill the fields with data
+                ach.name = str(character.enemies_defeated) + ' enemy defeated!'
+                ach.char = character
+                ach.timestamp = datetime.now()
+
+                # save the achievement
                 ach.save()
 
-            elif (character.enemies_defeated == 9):
-                ach = Achievement()
-                ach.name = '10th enemy defeated!'
-                ach.char = character
-
-                ach.save()
-
+            # update character stats
             character.enemies_defeated += 1
             character.hp = character.hp_total
             character.save()
 
+            # update enemy states
+            enemy.hp = enemy.total_hp
+            enemy.save()
+
+            # redirect to the win page
             return redirect('win', pk=c_pk)
         else:
+            # redirect to the enemy turn page
             return redirect('enemy', player_pk=c_pk, enemy_pk=e_pk)
 
 class WinView(LoginRequiredMixin, DetailView):

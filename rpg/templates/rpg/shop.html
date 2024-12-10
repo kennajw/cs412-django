@@ -13,17 +13,20 @@
     <h3>{{message}}</h3>
 {% endfor %}
 
-{% for i in item %}
-    <div class="shop-card">
-        <div>
+<div class="scrollable">
+    {% for i in item %}
+        <div class="shop-card">
             <div>
-                <h2>{{i.name}} - ${{i.price}}</h2>
-                <img src="{{i.img.url}}" alt="{{i.name}}">
+                <div>
+                    <h2>{{i.name}} - ${{i.price}}</h2>
+                    <img src="{{i.img.url}}" alt="{{i.name}}">
+                </div>
+                <h3>uses: {{i.uses}}</h3>
+                <h3>{{i.description}}</h3>
+                <a href="{% url 'buy' character.pk i.pk%}">buy!</a>
             </div>
-            <h3>{{i.description}}</h3>
-            <a href="{% url 'buy' character.pk i.pk%}">buy!</a>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
 
 {% endblock %}
