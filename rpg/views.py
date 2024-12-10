@@ -1,5 +1,6 @@
 # rpg/views.py
 from django.shortcuts import render
+from django.contrib import messages
 from django.views.generic import ListView, DetailView, View, TemplateView
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
@@ -54,7 +55,6 @@ class CreateAccountView(CreateView):
         # user form
         user_form = UserCreationForm(self.request.POST)
         user = user_form.save()
-        print('user creation form saved')
 
         # get what user filled out in the form
         character = form.instance
@@ -65,7 +65,6 @@ class CreateAccountView(CreateView):
         # get image
         file = self.request.FILES.getlist('img')
         character.img = file[0]
-        print('image added')
 
         # create base starting character info
         character.level = 1
@@ -73,15 +72,20 @@ class CreateAccountView(CreateView):
         character.mp = 10
         character.coins = 0
         character.exp = 0
-        print('rest of character info added')
 
         # save character
         character.save()
-        print('character saved to db')
+        
+        # achievement for new character
+        ach = Achievement()
+        ach.name = 'new character created!'
+        ach.char = character
+
+        # save achievement
+        ach.save()
 
         # return super class
-        return super().form_valid(form)
-        # return redirect('gamehome', pk=character.pk)
+        return redirect('gamehome', pk=character.pk)
     
 class CreateCharacterView(LoginRequiredMixin, CreateView):
     ''' a view to create a new character and save it to the database '''
@@ -101,8 +105,8 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
         character.user = user
 
         # get image
-        file = self.request.FILES.getlist('file')
-        character.img = file
+        file = self.request.FILES.getlist('img')
+        character.img = file[0]
 
         # create base starting character info
         character.level = 1
@@ -115,13 +119,14 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
         character.save()
 
         # return super class
-        return super().form_valid(form)
-        # return redirect('gamehome', pk=character.pk)
+        # return super().form_valid(form)
+        return redirect('gamehome', pk=character.pk)
     
     # add login url
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
+    
 
 class CharactersView(LoginRequiredMixin, ListView):
     ''' show the list of characters associated with a user '''
@@ -216,6 +221,7 @@ class UpdateCharacterView(LoginRequiredMixin, UpdateView):
     model = Character
     template_name = 'rpg/update.html'
     context_object_name = 'character'
+    fields = ['name', 'img']
 
     # add login url
     def get_login_url(self) -> str:
@@ -226,8 +232,8 @@ class UpdateCharacterView(LoginRequiredMixin, UpdateView):
     def get_success_url(self) -> str:
         ''' return the URL to redirect after successfully submitting the form '''
 
-        character = self.object.character
-        return reverse('gamehome', kwargs={'pk': character.pk})
+        pk = self.kwargs['pk']
+        return reverse('gamehome', kwargs={'pk': pk})
 
 class DeleteCharacterView(LoginRequiredMixin, DeleteView):
     ''' shows the page to delete your character '''
@@ -246,3 +252,344 @@ class DeleteCharacterView(LoginRequiredMixin, DeleteView):
         ''' return the URL to redirect after successfully submitting the form '''
 
         return reverse('play')
+    
+class ShopView(LoginRequiredMixin, ListView):
+    ''' shows the page that the character can by items from the shop '''
+
+    model = Item
+    template_name = 'rpg/shop.html'
+    context_object_name = 'item'
+
+    # add login url
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        character = Character.objects.get(pk=pk)
+        context['character'] = character
+        return context
+    
+class BuyItemView(LoginRequiredMixin, View):
+    ''' a view that adds an item to a character's inventory '''
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' overwrite the default dispatch function '''
+
+        # get the respective objects using in-line url pks
+        c_pk = self.kwargs['char_pk']
+        i_pk = self.kwargs['item_pk']
+
+        # use the ORM to find those objects
+        character = Character.objects.get(pk=c_pk)
+        item = Item.objects.get(pk=i_pk)
+
+        # check if the character has enough coins to purchase the item
+        if (character.coins >= item.price):
+            found = character.in_inventory(item)
+
+            if (found):
+                # find the inventory object that already exists for that item and character combo
+                inv_qs = Inventory.objects.filter(char=character, itm=item)
+                inv = [inv for inv in inv_qs]
+                inv[0].quantity += 1
+
+                # subtract the price from the characters amount of coins
+                character.coins = character.coins - item.price
+                character.save()
+            else:
+                # find the inventory object that already exists for that item and character combo
+                inv = Inventory()
+                inv.char = character
+                inv.itm = item
+                inv.quantity = 1
+                inv.save()
+
+                # subtract the price from the characters amount of coins
+                character.coins = character.coins - item.price
+                character.save()
+        # if the character does not have enough, return the message 'insufficient funds'
+        else:
+            messages.info(request, 'insufficient funds')
+
+        # redirect back to shop page
+        return redirect('shop', pk=c_pk)
+    
+class GameView(LoginRequiredMixin, ListView):
+    ''' a view to select an opponent '''
+
+    model = Enemy
+    template_name = 'rpg/game_selection.html'
+    context_object_name = 'enemy'
+
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        character = Character.objects.get(pk=pk)
+        context['character'] = character
+        return context
+    
+class PlayerView(LoginRequiredMixin, DetailView):
+    ''' a view to show the player UI during a battle (player's turn) '''
+
+    model = Character
+    template_name = 'rpg/player.html'
+    context_object_name = 'character'
+
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+    
+    def get_object(self):
+        ''' return character currently playing '''
+
+        player_pk = self.kwargs['player_pk']
+        return Character.objects.get(pk=player_pk)
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        enemy_pk = self.kwargs['enemy_pk']
+        enemy = Enemy.objects.get(pk=enemy_pk)
+        context['enemy'] = enemy
+        return context
+    
+class EnemyView(LoginRequiredMixin, DetailView):
+    ''' a view to show the player UI during a battle (enemy's turn) '''
+
+    model = Character
+    template_name = 'rpg/enemy.html'
+    context_object_name = 'character'
+
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+    
+    def get_object(self):
+        ''' return character currently playing '''
+
+        player_pk = self.kwargs['player_pk']
+        return Character.objects.get(pk=player_pk)
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        ''' build the dict of context data for this view '''
+
+        context = super().get_context_data(**kwargs)
+        enemy_pk = self.kwargs['enemy_pk']
+        enemy = Enemy.objects.get(pk=enemy_pk)
+        context['enemy'] = enemy
+        return context
+    
+class PlayerAttackView(LoginRequiredMixin, View):
+    ''' a view that carries out the player attack '''
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' overwrite the default dispatch function '''
+
+        # get the respective objects using in-line url pks
+        c_pk = self.kwargs['player_pk']
+        e_pk = self.kwargs['enemy_pk']
+
+        # use the ORM to find those objects
+        character = Character.objects.get(pk=c_pk)
+        enemy = Enemy.objects.get(pk=e_pk)
+
+        enemy.hp = max(enemy.hp - character.attack, 0)
+        enemy.save()
+
+        if (enemy.hp == 0):
+            if ((character.exp + enemy.exp_reward) >= character.get_total_exp()):
+                character.exp = (character.exp + enemy.exp_reward) - character.get_total_exp()
+                character.level += 1
+            else:
+                character.exp += enemy.exp_reward
+
+            character.coins += enemy.coin_reward
+
+            if (character.enemies_defeated == 0):
+                ach = Achievement()
+                ach.name = 'first enemy defeated!'
+                ach.char = character
+
+                ach.save()
+
+            elif (character.enemies_defeated == 4):
+                ach = Achievement()
+                ach.name = '5th enemy defeated!'
+                ach.char = character
+
+                ach.save()
+
+            elif (character.enemies_defeated == 9):
+                ach = Achievement()
+                ach.name = '10th enemy defeated!'
+                ach.char = character
+
+                ach.save()
+                
+            character.enemies_defeated += 1
+            character.hp = character.hp_total
+            character.save()
+
+            enemy.hp = enemy.total_hp
+            enemy.save()
+
+            return redirect('win', pk=c_pk)
+        else:
+            messages.info(request, 'you dealt', enemy.attack, 'damage')
+            return redirect('enemy', player_pk=c_pk, enemy_pk=e_pk)
+
+class EnemyAttackView(LoginRequiredMixin, View):
+    ''' a view that carries out the enemy attack '''
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' overwrite the default dispatch function '''
+
+        # get the respective objects using in-line url pks
+        c_pk = self.kwargs['player_pk']
+        e_pk = self.kwargs['enemy_pk']
+
+        # use the ORM to find those objects
+        character = Character.objects.get(pk=c_pk)
+        enemy = Enemy.objects.get(pk=e_pk)
+
+        character.hp = max(character.hp - enemy.attack, 0)
+        character.save()
+
+        if (character.hp == 0):
+            character.hp = character.hp_total
+            character.save()
+
+            return redirect('lose', pk=c_pk)
+        else:
+            messages.info(request, 'you sustained', enemy.attack, 'damage')
+            return redirect('player', player_pk=c_pk, enemy_pk=e_pk)
+
+class UseItemView(LoginRequiredMixin, View):
+    ''' a view that uses an item '''
+    
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' overwrite the default dispatch function '''
+
+        # get the respective objects using in-line url pks
+        c_pk = self.kwargs['player_pk']
+        e_pk = self.kwargs['enemy_pk']
+        i_pk = self.kwargs['item_pk']
+
+        # use the ORM to find those objects
+        character = Character.objects.get(pk=c_pk)
+        enemy = Enemy.objects.get(pk=e_pk)
+        item = Inventory.objects.get(pk=i_pk)
+
+        # conditional to figure out what type of item
+        if (item.itm.hp != 0):
+            character.hp = min(character.hp + item.itm.hp, character.hp_total)
+            character.save()
+
+            item.quantity -= 1
+            item.save()
+
+            messages.info(request, 'you healed')
+
+        elif (item.itm.attack != 0):
+            enemy.hp = max(enemy.hp - item.itm.attack, 0)
+            enemy.save()
+
+            item.itm.uses -= 1
+            item.itm.save()
+
+            if (item.itm.uses == 0):
+                item.quantity -= 1
+                item.save()
+
+            messages.info(request, 'you dealt', enemy.attack, 'damage')
+        
+        if (item.quantity == 0):
+            item.delete()
+        
+        if (enemy.hp == 0):
+            if ((character.exp + enemy.exp_reward) >= character.get_total_exp()):
+                character.exp = (character.exp + enemy.exp_reward) - character.get_total_exp()
+                character.level += 1
+            else:
+                character.exp += enemy.exp_reward
+
+            character.coins += enemy.coin_reward
+
+            if (character.enemies_defeated == 0):
+                ach = Achievement()
+                ach.name = 'first enemy defeated!'
+                ach.char = character
+
+                ach.save()
+
+            elif (character.enemies_defeated == 4):
+                ach = Achievement()
+                ach.name = '5th enemy defeated!'
+                ach.char = character
+
+                ach.save()
+
+            elif (character.enemies_defeated == 9):
+                ach = Achievement()
+                ach.name = '10th enemy defeated!'
+                ach.char = character
+
+                ach.save()
+
+            character.enemies_defeated += 1
+            character.hp = character.hp_total
+            character.save()
+
+            return redirect('win', pk=c_pk)
+        else:
+            return redirect('enemy', player_pk=c_pk, enemy_pk=e_pk)
+
+class WinView(LoginRequiredMixin, DetailView):
+    ''' a view to show that the player has won '''
+
+    model = Character
+    template_name = 'rpg/win.html'
+    context_object_name = 'character'
+
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')
+
+class LoseView(LoginRequiredMixin, DetailView):
+    ''' a view to show that the player has lost '''
+
+    model = Character
+    template_name = 'rpg/win.html'
+    context_object_name = 'character'
+
+    def get_login_url(self) -> str:
+        ''' return the url of the login page '''
+        return reverse('rpglogin')

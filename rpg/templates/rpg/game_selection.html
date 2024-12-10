@@ -1,0 +1,22 @@
+<!-- rpg/templates/rpg/game_selection.html -->
+
+<!-- extend the base we created -->
+{% extends 'rpg/base.html' %}
+
+<!-- begin inventory list page content -->
+{% block content %}
+
+<h1>choose an enemy to fight!</h1>
+
+{% for e in enemy %}
+    <a href="{% url 'player' character.pk e.pk %}">
+        <div class="enemy-card">
+            <h2>{{e.name}}</h2>
+            <img src="{{e.img.url}}" alt="{{e.name}}">
+            <h3>difficulty: {{e.difficulty}}</h3>
+            <h3>hp: {{e.hp}}</h3>
+        </div>
+    </a>
+{% endfor %}
+
+{% endblock %}

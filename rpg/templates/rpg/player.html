@@ -1,0 +1,47 @@
+<!-- rpg/templates/rpg/player.html -->
+
+<!-- extend the base we created -->
+{% extends 'rpg/base.html' %}
+
+{% block content %}
+
+{% for message in messages %}
+    <h3>{{message}}</h3>
+{% endfor %}
+
+<div class="enemy-bar">
+    <h3>{{enemy.name}}</h3>
+    <img src="{{enemy.img.url}}" alt="{{enemy.name}}">
+    <h3>{{enemy.difficulty}}</h3>
+    <h3>{{enemy.hp}}/{{enemy.total_hp}}</h3>
+</div>
+
+<div class="player-battle">
+    <div class="name-img-hp">
+        <h2>{{character.name}} - {{character.hp}}/{{character.hp_total}}</h2>
+        <img src="{{character.img.url}}" alt="{{character.name}}">
+    </div>
+    <div class="button-container">
+        <a href="{% url 'player_attack' character.pk enemy.pk %}"><h2>attack!</h2></a>
+    </div>
+    <div class="scrollable-items">
+        {% for item in character.get_inventory %}
+            <a href="{% url 'use_item' character.pk enemy.pk item.pk %}">
+                <div class="item-battle">
+                    <h3>{{item.itm.name}}</h3>
+                    {% if item.hp != 0 %}
+                        <h3>hp+: {{item.itm.hp}}</h3>
+                    {% else %}
+                        {% if item.attack != 0 %}
+                            <h3>attack: {{item.itm.attack}}</h3>
+                            <h3>uses: {{item.itm.uses}}</h3>
+                        {% else %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

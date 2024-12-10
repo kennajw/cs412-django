@@ -1,0 +1,29 @@
+<!-- rpg/templates/rpg/shop.html -->
+
+<!-- extend the base we created -->
+{% extends 'rpg/base.html' %}
+
+{% block content %}
+
+<h1>shop!</h1>
+
+<h2>coins: {{character.coins}}</h2>
+
+{% for message in messages %}
+    <h3>{{message}}</h3>
+{% endfor %}
+
+{% for i in item %}
+    <div class="shop-card">
+        <div>
+            <div>
+                <h2>{{i.name}} - ${{i.price}}</h2>
+                <img src="{{i.img.url}}" alt="{{i.name}}">
+            </div>
+            <h3>{{i.description}}</h3>
+            <a href="{% url 'buy' character.pk i.pk%}">buy!</a>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

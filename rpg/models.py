@@ -12,9 +12,11 @@ class Character(models.Model):
     img = models.ImageField(blank=False)
     level = models.IntegerField(blank=False)
     hp = models.IntegerField(blank=False)
-    mp = models.IntegerField(blank=False)
+    hp_total = models.IntegerField(blank=False)
     coins = models.IntegerField(blank=False)
     exp = models.IntegerField(blank=False)
+    attack = models.IntegerField(blank=False)
+    enemies_defeated = models.IntegerField(blank=False)
 
     # user foreign key (handled by django)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -38,6 +40,8 @@ class Character(models.Model):
 
         # use the ORM to retrieve comments for which the FK is this article
         items = Inventory.objects.filter(char=self)
+        items = items.filter(quantity__gt=0)
+        items = items.filter(itm__uses__gt=0)
         return items 
     
     def get_achievements(self):
@@ -46,6 +50,17 @@ class Character(models.Model):
         # use the ORM to retrieve comments for which the FK is this article
         achievements = Achievement.objects.filter(char=self)
         return achievements
+    
+    def in_inventory(self, it):
+        ''' return a boolean to see if there is already an item spot in that character's inventory '''
+
+        # use the ORM to retrieve comments for which the FK is this article
+        items = Inventory.objects.filter(char=self)
+        
+        if (items.filter(itm=it)):
+            return True
+        else:
+            return False
 
 class Item(models.Model):
     ''' encapsulate the items of a user in the rpg '''
@@ -54,6 +69,9 @@ class Item(models.Model):
     name = models.TextField(blank=False)
     type = models.TextField(blank=False)
     img = models.ImageField(blank=False)
+    hp = models.IntegerField(blank=False)
+    attack = models.IntegerField(blank=False)
+    uses = models.IntegerField(blank=False)
     description = models.TextField(blank=False)
     price = models.IntegerField(blank=False)
 
@@ -84,3 +102,20 @@ class Achievement(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.char}'
+
+class Enemy(models.Model):
+    ''' encapsulate the enemy in the rpg '''
+
+    # enemy information
+    name = models.TextField(blank=False)
+    img = models.ImageField(blank=False)
+    difficulty = models.TextField(blank=False)
+    hp = models.IntegerField(blank=False)
+    total_hp = models.IntegerField(blank=False)
+    attack = models.IntegerField(blank=False)
+    coin_reward = models.IntegerField(blank=False)
+    exp_reward = models.IntegerField(blank=False)
+
+    def __str__(self):
+        return f'{self.name} - {self.difficulty}'
+    

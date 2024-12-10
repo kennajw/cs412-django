@@ -11,23 +11,24 @@
         <img src="{{character.img.url}}" alt="image of your character">
         <div class="character-stats">
             <h3>level: {{character.level}}</h3>
-            <h3>hp: {{character.hp}}  mp: {{character.mp}}</h3>
+            <h3>hp: {{character.hp}}</h3>
             <h3>coins: {{character.coins}}</h3>
             <h3>exp: {{character.exp}}/{{character.get_total_exp}}</h3>
         </div>
     </div>
     <div class="store-card">
         <h2>store</h2>
-        <a href="{% url 'home' c.pk}">
+        <a href="{% url 'shop' character.pk %}">
             <div class="store-button">
                 <h2>visit _____'s shop</h2>
             </div>
         </a>
     </div>
     <div class="game-card">
-        <a href=""></a>
-        <div class="game-button">
-            <h2>let's play!</h2>
-        </div>
+        <a href="{% url 'selection' character.pk %}">
+            <div class="game-button">
+                <h2>let's play!</h2>
+            </div>
+        </a>
     </div>
 {% endblock %}
