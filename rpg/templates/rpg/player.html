@@ -5,33 +5,43 @@
 
 {% block content %}
 
+<!-- battle update message -->
 {% for message in messages %}
     <h3>**{{message}}**</h3>
 {% endfor %}
 
+<!-- battle container -->
 <div class="battle-container">
+    <!-- enemy info -->
     <div class="enemy-bar">
         <h3>{{enemy.name}} - {{battle.enemy_hp}}/{{enemy.hp}}</h3>
         <img src="{{enemy.img.url}}" alt="{{enemy.name}}">
     </div>
     
+    <!-- character info -->
     <div class="character-bar-container">
         <div class="character-bar">
             <div class="name-img-hp">
                 <h2>{{character.name}} - {{battle.player_hp}}/{{character.hp}}</h2>
                 <img src="{{character.img.url}}" alt="{{character.name}}">
             </div>
+            <!-- attack option -->
             <div class="attack-button">
+                <!-- perform player attack on enemy -->
                 <a href="{% url 'player_attack' character.pk enemy.pk %}"><h2>attack!</h2></a>
             </div>
+            <!-- item option -->
             <div class="center-container">
                     {% for item in character.get_inventory %}
+                    <!-- use item on player or enemy -->
                         <a href="{% url 'use_item' character.pk enemy.pk item.pk %}">
                             <div class="item-battle">
                                 <h3>{{item.itm.name}}</h3>
+                                <!-- player health item -->
                                 {% if item.itm.hp != 0 %}
                                     <h3>hp+: {{item.itm.hp}}</h3>
                                 {% else %}
+                                    <!-- additional attack item -->
                                     {% if item.itm.attack != 0 %}
                                         <h3>attack: {{item.itm.attack}}</h3>
                                     {% else %}

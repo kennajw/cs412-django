@@ -5,17 +5,21 @@
 
 <!-- begin inventory list page content -->
 {% block content %}
+    <!-- settings options -->
     <div class="button-container-col">
+        <!-- redirect to update character form -->
         <div class="settings-button">
             <a href="{% url 'update' character.pk %}">
                 <h2>edit character</h2>
             </a>
         </div>
+        <!-- redirect to delete character form -->
         <div class="settings-button">
             <a href="{% url 'delete' character.pk %}">
                 <h2>delete character</h2>
             </a>
         </div>
+        <!-- redirect to logout page -->
         <div class="settings-button">
             <a href="{% url 'rpglogout' %}">
                 <h2>log out</h2>

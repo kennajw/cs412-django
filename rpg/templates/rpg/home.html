@@ -17,7 +17,9 @@
                 <h3>exp: {{character.exp}}/{{character.get_total_exp}}</h3>
             </div>
         </div>
+        <!-- button options -->
         <div class="button-container-row">
+            <!-- shop button -->
             <div class="store-card">
                 <a href="{% url 'shop' character.pk %}">
                     <div class="menu-button">
@@ -25,6 +27,7 @@
                     </div>
                 </a>
             </div>
+            <!-- game button -->
             <div class="game-card">
                 <a href="{% url 'selection' character.pk %}">
                     <div class="menu-button">

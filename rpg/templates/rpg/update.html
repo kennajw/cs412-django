@@ -4,12 +4,14 @@
 {% block content %}
 
 <div class="center-container">
+    <!-- title -->
     <h1>update {{character.name}}'s info!</h1>
 
     <form method="POST">
         <!-- talk about CSRF -->
         {% csrf_token %}
         <div class="button-container-col">
+            <!-- update form -->
             <div class="form">    
                 <div>
                     <label for="name">name: </label>
@@ -22,6 +24,7 @@
                 </div>
             </div>
         
+            <!-- submit -->
             <button type="submit"><h2>update!</h2></button>
         </div>
     </form>

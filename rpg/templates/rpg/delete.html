@@ -3,9 +3,11 @@
 
 {% block content %}
 
+<!-- delete character -->
 <div class="center-container">
     <h1>Would you like to delete {{character.name}}?</h1>
-    
+
+    <!-- character card info -->
     <div class="character-card">
         <h2>{{character.name}}</h2>
         <img src="{{character.img.url}}" alt="image of your character">
@@ -17,12 +19,15 @@
         </div>
     </div>
     
+    <!-- buttons -->
     <div class="button-container-row">
         <form method="post">
             {% csrf_token %}
+                <!-- yes chosen, will delete character and reroute you back to menu -->
                 <button type="submit" class="button"><h2>yes</h2></button>
         </form>
             
+        <!-- no chosen, will redirect back to character home page -->
         <form method="get" action="{% url 'gamehome' character.pk %}">
             <button type="submit" class="button"><h2>no</h2></button>
         </form>

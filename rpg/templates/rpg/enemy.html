@@ -5,22 +5,27 @@
 
 {% block content %}
 
+<!-- battle update message -->
 {% for message in messages %}
     <h3>**{{message}}**</h3>
 {% endfor %}
 
+<!-- battle container -->
 <div class="battle-container">
+    <!-- enemy info -->
     <div class="enemy-bar">
         <h3>{{enemy.name}} - {{battle.enemy_hp}}/{{enemy.hp}}</h3>
         <img src="{{enemy.img.url}}" alt="{{enemy.name}}">
     </div>
     
+    <!-- character info -->
     <div class="character-bar-container">
         <div class="character-bar">
             <div class="name-img-hp">
                 <h2>{{character.name}} - {{battle.player_hp}}/{{character.hp}}</h2>
                 <img src="{{character.img.url}}" alt="{{character.name}}">
             </div>
+            <!-- perform enemy attack on player -->
             <div class="enemy-attack-button">
                 <a href="{% url 'enemy_attack' character.pk enemy.pk %}"><h2>enemy's attack!</h2></a>
             </div>

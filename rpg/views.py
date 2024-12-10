@@ -131,7 +131,7 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
         # return super().form_valid(form)
         return redirect('gamehome', pk=character.pk)
     
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -144,7 +144,7 @@ class CharactersView(LoginRequiredMixin, ListView):
     template_name = 'rpg/character_list.html'
     context_object_name = 'characters'
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -156,7 +156,7 @@ class HomeView(LoginRequiredMixin, DetailView):
     template_name = 'rpg/home.html'
     context_object_name = 'character'
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -177,7 +177,7 @@ class InventoryView(LoginRequiredMixin, ListView):
         context['character'] = character
         return context
     
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -198,7 +198,7 @@ class AchievementsView(LoginRequiredMixin, ListView):
         context['character'] = character
         return context
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -210,7 +210,7 @@ class SettingsView(LoginRequiredMixin, TemplateView):
     template_name = 'rpg/settings.html'
     context_object_name = 'character'
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -232,7 +232,7 @@ class UpdateCharacterView(LoginRequiredMixin, UpdateView):
     context_object_name = 'character'
     fields = ['name', 'img']
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -251,7 +251,7 @@ class DeleteCharacterView(LoginRequiredMixin, DeleteView):
     template_name = 'rpg/delete.html'
     context_object_name = 'character'
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -269,7 +269,7 @@ class ShopView(LoginRequiredMixin, ListView):
     template_name = 'rpg/shop.html'
     context_object_name = 'item'
 
-    # add login url
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -286,6 +286,7 @@ class ShopView(LoginRequiredMixin, ListView):
 class BuyItemView(LoginRequiredMixin, View):
     ''' a view that adds an item to a character's inventory '''
     
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -337,6 +338,7 @@ class GameView(LoginRequiredMixin, ListView):
     template_name = 'rpg/game_selection.html'
     context_object_name = 'enemy'
 
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -357,6 +359,7 @@ class PlayerView(LoginRequiredMixin, DetailView):
     template_name = 'rpg/player.html'
     context_object_name = 'character'
 
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -396,6 +399,7 @@ class EnemyView(LoginRequiredMixin, DetailView):
     template_name = 'rpg/enemy.html'
     context_object_name = 'character'
 
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -464,6 +468,7 @@ class NewBattleView(LoginRequiredMixin, View):
 class PlayerAttackView(LoginRequiredMixin, View):
     ''' a view that carries out the player attack '''
     
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -544,6 +549,7 @@ class PlayerAttackView(LoginRequiredMixin, View):
 class EnemyAttackView(LoginRequiredMixin, View):
     ''' a view that carries out the enemy attack '''
     
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -582,6 +588,7 @@ class EnemyAttackView(LoginRequiredMixin, View):
 class UseItemView(LoginRequiredMixin, View):
     ''' a view that uses an item '''
     
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -691,6 +698,7 @@ class WinView(LoginRequiredMixin, DetailView):
     template_name = 'rpg/win.html'
     context_object_name = 'character'
 
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')
@@ -702,6 +710,7 @@ class LoseView(LoginRequiredMixin, DetailView):
     template_name = 'rpg/lose.html'
     context_object_name = 'character'
 
+    # login url if accessing without being logged in
     def get_login_url(self) -> str:
         ''' return the url of the login page '''
         return reverse('rpglogin')

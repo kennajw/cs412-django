@@ -49,17 +49,6 @@ class Character(models.Model):
         # use the ORM to retrieve comments for which the FK is this article
         achievements = Achievement.objects.filter(char=self)
         return achievements
-    
-    def in_inventory(self, it):
-        ''' return a boolean to see if there is already an item spot in that character's inventory '''
-
-        # use the ORM to retrieve comments for which the FK is this article
-        items = Inventory.objects.filter(char=self)
-        
-        if (items.filter(itm=it)):
-            return True
-        else:
-            return False
 
 class Item(models.Model):
     ''' encapsulate the items of a user in the rpg '''

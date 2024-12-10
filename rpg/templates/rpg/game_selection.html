@@ -6,12 +6,16 @@
 <!-- begin inventory list page content -->
 {% block content %}
 
+<!-- enemy selection -->
 <div class="center-container">
     <h1>choose an enemy to fight!</h1>
 
+    <!-- make scrollable for overflow cards -->
     <div class="scrollable">
+        <!-- loop through enemies -->
         {% for e in enemy %}
             <a href="{% url 'new_battle' character.pk e.pk %}">
+                <!-- enemy card -->
                 <div class="character-card">
                     <h2>{{e.name}}</h2>
                     <img src="{{e.img.url}}" alt="{{e.name}}">

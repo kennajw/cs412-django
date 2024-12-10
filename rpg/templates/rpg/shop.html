@@ -6,16 +6,21 @@
 {% block content %}
 
 <div class="center-container">
+    <!-- title -->
     <h1>welcome to the shop!</h1>
 
+    <!-- current player funds -->
     <h2>{{character.name}}'s coins: ${{character.coins}}</h2>
 
+    <!-- shop messages such as insufficient funds -->
     {% for message in messages %}
         <h3>**{{message}}**</h3>
     {% endfor %}
 </div>
 
+<!-- item list -->
 <div class="scrollable">
+    <!-- loop through all available items -->
     {% for i in item %}
         <div class="item-card">
             <div class="item-name">
@@ -26,6 +31,7 @@
                 <h3>uses: {{i.uses}}</h3>
                 <h4>- {{i.description}}</h4>
                 <div class="center-container">
+                    <!-- redirect to buy functionality -->
                     <div class="buy-button">
                         <a href="{% url 'buy' character.pk i.pk%}"><h3>buy!</h3></a>
                     </div>
