@@ -5,18 +5,22 @@
 
 <!-- begin inventory list page content -->
 {% block content %}
+    <div class="center-container">
+        <!-- title -->
+        <h1>achievements:</h1>
 
-    <!-- title -->
-    <h1>achievements</h1>
-
-    <!-- iterate through all the inventory item objects of all characters -->
-    {% for ach in character.get_achievements %}
-        <!-- item card -->
-        <div class="achievement-card">
-            <div>
-                <h2>{{ach.name}}</h2>
-            </div>
+        <!-- iterate through all the inventory item objects of all characters -->
+        <div class="scrollable">
+            {% for ach in character.get_achievements %}
+                <!-- item card -->
+                <div class="achievement-card">
+                    <div>
+                        <h2>{{ach.name}}</h2>
+                        <h4>{{ach.timestamp}}</h4>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 
 {% endblock %}

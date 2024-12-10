@@ -6,17 +6,21 @@
 <!-- begin inventory list page content -->
 {% block content %}
 
-<h1>choose an enemy to fight!</h1>
+<div class="center-container">
+    <h1>choose an enemy to fight!</h1>
 
-{% for e in enemy %}
-    <a href="{% url 'player' character.pk e.pk %}">
-        <div class="enemy-card">
-            <h2>{{e.name}}</h2>
-            <img src="{{e.img.url}}" alt="{{e.name}}">
-            <h3>difficulty: {{e.difficulty}}</h3>
-            <h3>hp: {{e.hp}}</h3>
-        </div>
-    </a>
-{% endfor %}
+    <div class="scrollable">
+        {% for e in enemy %}
+            <a href="{% url 'new_battle' character.pk e.pk %}">
+                <div class="character-card">
+                    <h2>{{e.name}}</h2>
+                    <img src="{{e.img.url}}" alt="{{e.name}}">
+                    <h3>{{e.difficulty}}</h3>
+                    <h3>hp: {{e.hp}}</h3>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

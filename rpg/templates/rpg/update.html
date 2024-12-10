@@ -3,23 +3,27 @@
 
 {% block content %}
 
-<h1>update {{character.name}}'s info!</h1>
+<div class="center-container">
+    <h1>update {{character.name}}'s info!</h1>
 
-<form method="POST">
-    <!-- talk about CSRF -->
-    {% csrf_token %}
-    <div class="form">    
-        <div>
-            <label for="name">name: </label>
-            {{form.name}}
+    <form method="POST">
+        <!-- talk about CSRF -->
+        {% csrf_token %}
+        <div class="button-container-col">
+            <div class="form">    
+                <div>
+                    <label for="name">name: </label>
+                    {{form.name}}
+                </div>
+            
+                <div>
+                    <label for="img">img: </label>
+                    {{form.img}}
+                </div>
+            </div>
+        
+            <button type="submit"><h2>update!</h2></button>
         </div>
-    
-        <div>
-            <label for="img">img: </label>
-            {{form.img}}
-        </div>
-    </div>
-
-    <button type="submit">update character!</button>
-</form>
+    </form>
+</div>
 {% endblock %}

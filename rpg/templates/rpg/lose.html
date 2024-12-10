@@ -11,9 +11,11 @@
         <div id="stars2"></div>
         <div id="stars3"></div>
 
-        <h1>You lost the battle</h1>
-        <div class="button-container">
-            <a href="{% url 'gamehome' character.pk %}"><h2>back to home</h2></a>
+        <div class="button-container-col">
+            <h1>You lost the game!</h1>
+            <div class="back-home-button">
+                <a href="{% url 'gamehome' character.pk %}"><h2>back to home</h2></a>
+            </div>
         </div>
     </body>
 </html>

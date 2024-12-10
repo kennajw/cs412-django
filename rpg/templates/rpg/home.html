@@ -6,29 +6,32 @@
 <!-- begin home page content -->
 {% block content %}
     <!-- character card in one corner -->
-    <div class="character-card">
-        <h2>{{character.name}}</h2>
-        <img src="{{character.img.url}}" alt="image of your character">
-        <div class="character-stats">
-            <h3>level: {{character.level}}</h3>
-            <h3>hp: {{character.hp}}</h3>
-            <h3>coins: {{character.coins}}</h3>
-            <h3>exp: {{character.exp}}/{{character.get_total_exp}}</h3>
+    <div class="center-container-home">
+        <div class="character-card">
+            <h1>{{character.name}}</h1>
+            <img src="{{character.img.url}}" alt="image of your character">
+            <div class="character-stats">
+                <h3>level: {{character.level}}</h3>
+                <h3>hp: {{character.hp}}</h3>
+                <h3>coins: {{character.coins}}</h3>
+                <h3>exp: {{character.exp}}/{{character.get_total_exp}}</h3>
+            </div>
         </div>
-    </div>
-    <div class="store-card">
-        <h2>store</h2>
-        <a href="{% url 'shop' character.pk %}">
-            <div class="store-button">
-                <h2>visit _____'s shop</h2>
+        <div class="button-container-row">
+            <div class="store-card">
+                <a href="{% url 'shop' character.pk %}">
+                    <div class="menu-button">
+                        <h2>visit the shop</h2>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-    <div class="game-card">
-        <a href="{% url 'selection' character.pk %}">
-            <div class="game-button">
-                <h2>let's play!</h2>
+            <div class="game-card">
+                <a href="{% url 'selection' character.pk %}">
+                    <div class="menu-button">
+                        <h2>let's play!</h2>
+                    </div>
+                </a>
             </div>
-        </a>
+        </div>
     </div>
 {% endblock %}

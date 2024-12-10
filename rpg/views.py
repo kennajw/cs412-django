@@ -1,5 +1,4 @@
 # rpg/views.py
-from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, View, TemplateView
 from django.db.models.base import Model as Model
@@ -67,16 +66,17 @@ class CreateAccountView(CreateView):
         # create base starting character info
         character.level = 1
         character.hp = 10
-        character.mp = 10
         character.coins = 0
         character.exp = 0
+        character.attack = 5
+        character.enemies_defeated = 0
 
         # save character
         character.save()
         
         # achievement for new character
         ach = Achievement()
-        ach.name = 'new character created!'
+        ach.name = '1st time playing!'
         ach.char = character
         ach.timestamp = datetime.now()
 
@@ -110,16 +110,17 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
         # create base starting character info
         character.level = 1
         character.hp = 10
-        character.mp = 10
         character.coins = 0
         character.exp = 0
+        character.attack = 5
+        character.enemies_defeated = 0
 
         # save the character to the db
         character.save()
 
         # achievement for new character
         ach = Achievement()
-        ach.name = 'new character created!'
+        ach.name = '1st time playing!'
         ach.char = character
         ach.timestamp = datetime.now()
 
@@ -302,13 +303,11 @@ class BuyItemView(LoginRequiredMixin, View):
 
         # check if the character has enough coins to purchase the item
         if (character.coins >= item.price):
-            found = character.in_inventory(item)
-
-            if (found):
+            if (Inventory.objects.filter(char=character, itm=item).exists()):
                 # find the inventory object that already exists for that item and character combo
-                inv_qs = Inventory.objects.filter(char=character, itm=item)
-                inv = [inv for inv in inv_qs]
-                inv[0].quantity += 1
+                inv= Inventory.objects.get(char=character, itm=item)
+                inv.quantity += 1
+                inv.save()
 
                 # subtract the price from the characters amount of coins
                 character.coins = character.coins - item.price
@@ -371,10 +370,23 @@ class PlayerView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ''' build the dict of context data for this view '''
 
+        # call the super class context
         context = super().get_context_data(**kwargs)
+
+        # get the in-line pks
+        player_pk = self.kwargs['player_pk']
         enemy_pk = self.kwargs['enemy_pk']
+
+        # get the objects from the ORM
         enemy = Enemy.objects.get(pk=enemy_pk)
+        character = Character.objects.get(pk=player_pk)
+        battle = Battle.objects.get(char=character, enemy=enemy)
+
+        # add the context variables
         context['enemy'] = enemy
+        context['battle'] = battle
+
+        # return the context variables
         return context
     
 class EnemyView(LoginRequiredMixin, DetailView):
@@ -397,11 +409,57 @@ class EnemyView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ''' build the dict of context data for this view '''
 
+        # call the super class context
         context = super().get_context_data(**kwargs)
+
+        # get the in-line pks
+        player_pk = self.kwargs['player_pk']
         enemy_pk = self.kwargs['enemy_pk']
+
+        # get the objects from the ORM
         enemy = Enemy.objects.get(pk=enemy_pk)
+        character = Character.objects.get(pk=player_pk)
+        battle = Battle.objects.get(char=character, enemy=enemy)
+
+        # add the context variables
         context['enemy'] = enemy
+        context['battle'] = battle
+
+        # return the context variables
         return context
+    
+class NewBattleView(LoginRequiredMixin, View):
+    ''' a view for when a battle is started '''
+
+    def dispatch(self, request, *args, **kwargs):
+        ''' overwrite the default dispatch function '''
+
+        # get the respective objects using in-line url pks
+        c_pk = self.kwargs['player_pk']
+        e_pk = self.kwargs['enemy_pk']
+
+        # use the ORM to find those objects
+        character = Character.objects.get(pk=c_pk)
+        enemy = Enemy.objects.get(pk=e_pk)
+
+        if (Battle.objects.filter(char=character, enemy=enemy).exists()):
+            # redirect to player turn page
+            return redirect('player', player_pk=c_pk, enemy_pk=e_pk)
+        else:
+            # create a new battle object
+            battle = Battle()
+
+            # fill the fields of the object
+            battle.player_hp = character.hp
+            battle.enemy_hp = enemy.hp
+            battle.char = character
+            battle.enemy = enemy
+
+            # save the battle object
+            battle.save()
+
+            # after creating a new object, redirect to player turn page
+            return redirect('player', player_pk=c_pk, enemy_pk=e_pk)
     
 class PlayerAttackView(LoginRequiredMixin, View):
     ''' a view that carries out the player attack '''
@@ -420,45 +478,67 @@ class PlayerAttackView(LoginRequiredMixin, View):
         # use the ORM to find those objects
         character = Character.objects.get(pk=c_pk)
         enemy = Enemy.objects.get(pk=e_pk)
+        battle = Battle.objects.get(char=character, enemy=enemy)
 
-        enemy.hp = max(enemy.hp - character.attack, 0)
-        enemy.save()
+        # attack the enemy
+        battle.enemy_hp = max(battle.enemy_hp - character.attack, 0)
+        battle.save()
 
-        if (enemy.hp == 0):
+        if (battle.enemy_hp == 0):
+            # if reward exp is over the level up threshold, level the character up and readjust
             if ((character.exp + enemy.exp_reward) >= character.get_total_exp()):
                 character.exp = (character.exp + enemy.exp_reward) - character.get_total_exp()
+
+                # level up
                 character.level += 1
+                character.hp += 10
+                character.attack += 2
+            # else, add the reward exp to current exp
             else:
                 character.exp += enemy.exp_reward
 
+            # add the reward coins to character's coins
             character.coins += enemy.coin_reward
 
             if (character.enemies_defeated == 0):
+                # create a new achievement object
                 ach = Achievement()
-                ach.name = 'first enemy defeated!'
+
+                # fill the fields
+                ach.name = '1st enemy defeated!'
                 ach.char = character
                 ach.timestamp = datetime.now()
 
+                # save the object
                 ach.save()
 
             elif ((character.enemies_defeated + 1 ) % 5 == 0):
+                # create a new achievement object
                 ach = Achievement()
-                ach.name = str(character.enemies_defeated) + ' enemy defeated!'
+
+                # fill the fields
+                ach.name = str(character.enemies_defeated + 1) + ' enemies defeated!'
                 ach.char = character
                 ach.timestamp = datetime.now()
 
+                # save the object
                 ach.save()
                 
+            # update number of enemies defeated and save
             character.enemies_defeated += 1
-            character.hp = character.hp_total
             character.save()
 
-            enemy.hp = enemy.total_hp
-            enemy.save()
-
+            # delete the battle
+            battle.delete()
+            
+            # redirect to win page
             return redirect('win', pk=c_pk)
         else:
-            messages.info(request, 'you dealt', enemy.attack, 'damage')
+            # create a message for damage dealt
+            message_string = 'you dealt ' + str(character.attack) + ' damage'
+            messages.info(request, message_string)
+
+            # redirect to enemy's turn
             return redirect('enemy', player_pk=c_pk, enemy_pk=e_pk)
 
 class EnemyAttackView(LoginRequiredMixin, View):
@@ -478,23 +558,25 @@ class EnemyAttackView(LoginRequiredMixin, View):
         # use the ORM to find those objects
         character = Character.objects.get(pk=c_pk)
         enemy = Enemy.objects.get(pk=e_pk)
+        battle = Battle.objects.get(char=character, enemy=enemy)
 
-        character.hp = max(character.hp - enemy.attack, 0)
-        character.save()
+        # attack the player
+        battle.player_hp = max(battle.player_hp - enemy.attack, 0)
+        battle.save()
 
         # if character hp is 0, you lose :(
-        if (character.hp == 0):
-            # update the character stats
-            character.hp = character.hp_total
-            character.save()
+        if (battle.player_hp == 0):
+            # delete the battle
+            battle.delete()
 
-            # update the enemy stats
-            enemy.hp = enemy.total_hp
-            enemy.save()
-
+            # redirect to lose page
             return redirect('lose', pk=c_pk)
         else:
-            messages.info(request, 'you sustained', enemy.attack, 'damage')
+            # create a message for damage sustained
+            message_string = 'you sustained ' + str(enemy.attack) + ' damage'
+            messages.info(request, message_string)
+
+            # redirect to player's turn
             return redirect('player', player_pk=c_pk, enemy_pk=e_pk)
 
 class UseItemView(LoginRequiredMixin, View):
@@ -515,35 +597,31 @@ class UseItemView(LoginRequiredMixin, View):
         # use the ORM to find those objects
         character = Character.objects.get(pk=c_pk)
         enemy = Enemy.objects.get(pk=e_pk)
+        battle = Battle.objects.get(char=character, enemy=enemy)
         item = Inventory.objects.get(pk=i_pk)
 
         # conditional to figure out what type of item
         if (item.itm.hp != 0):
             # heal your character and save
-            character.hp = min(character.hp + item.itm.hp, character.hp_total)
-            character.save()
+            battle.player_hp = min(battle.player_hp + item.itm.hp, character.hp)
+            battle.save()
 
             # since each consumable item only has 1 use, just decrease the quanity and save
             item.quantity -= 1
             item.save()
 
             # create a message saying you healed
-            messages.info(request, 'you healed')
+            message_string = 'you healed ' + str(item.itm.hp) + ' hp'
+            messages.info(request, message_string)
 
         elif (item.itm.attack != 0):
             # attack the enemy and save
-            enemy.hp = max(enemy.hp - item.itm.attack, 0)
-            enemy.save()
+            battle.enemy_hp = max(battle.enemy_hp - item.itm.attack, 0)
+            battle.save()
 
-            # subtract from item uses
-            item.itm.uses -= 1
-            item.itm.save()
-
-            # if the item uses is 0, that means the weapon has broken so we must decrease the quantity
-            if (item.itm.uses == 0):
-                # decrease the quantity and save
-                item.quantity -= 1
-                item.save()
+            # decrease the quantity and save
+            item.quantity -= 1
+            item.save()
 
             # create a message for damage dealt
             message_string = 'you dealt ' + str(enemy.attack) + ' damage'
@@ -554,12 +632,16 @@ class UseItemView(LoginRequiredMixin, View):
             item.delete()
         
         # if enemy hp is 0, then you have won! update accordingly
-        if (enemy.hp == 0):
+        if (battle.enemy_hp == 0):
             # if reward exp is over the level up threshold, level the character up and readjust
             if ((character.exp + enemy.exp_reward) >= character.get_total_exp()):
                 character.exp = (character.exp + enemy.exp_reward) - character.get_total_exp()
+
+                # level up
                 character.level += 1
-                character.hp_total += 10
+                character.hp += 10
+                character.attack += 2
+
             # else, just add the reward exp onto current exp
             else:
                 character.exp += enemy.exp_reward
@@ -573,7 +655,7 @@ class UseItemView(LoginRequiredMixin, View):
                 ach = Achievement()
 
                 # fill the fields with data
-                ach.name = 'first enemy defeated!'
+                ach.name = '1st enemy defeated!'
                 ach.char = character
                 ach.timestamp = datetime.now()
 
@@ -586,21 +668,15 @@ class UseItemView(LoginRequiredMixin, View):
                 ach = Achievement()
 
                 # fill the fields with data
-                ach.name = str(character.enemies_defeated) + ' enemy defeated!'
+                ach.name = str(character.enemies_defeated + 1) + ' enemies defeated!'
                 ach.char = character
                 ach.timestamp = datetime.now()
 
                 # save the achievement
                 ach.save()
 
-            # update character stats
-            character.enemies_defeated += 1
-            character.hp = character.hp_total
-            character.save()
-
-            # update enemy states
-            enemy.hp = enemy.total_hp
-            enemy.save()
+            # delete the battle
+            battle.delete()
 
             # redirect to the win page
             return redirect('win', pk=c_pk)
@@ -623,7 +699,7 @@ class LoseView(LoginRequiredMixin, DetailView):
     ''' a view to show that the player has lost '''
 
     model = Character
-    template_name = 'rpg/win.html'
+    template_name = 'rpg/lose.html'
     context_object_name = 'character'
 
     def get_login_url(self) -> str:

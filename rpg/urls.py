@@ -32,4 +32,5 @@ urlpatterns = [
     path(r'use_item/<int:player_pk>/<int:enemy_pk>/<int:item_pk>/', views.UseItemView.as_view(), name='use_item'),
     path(r'win/<int:pk>/', views.WinView.as_view(), name='win'),
     path(r'lose/<int:pk>/', views.LoseView.as_view(), name='lose'),
+    path(r'new_battle/<int:player_pk>/<int:enemy_pk>/', views.NewBattleView.as_view(), name='new_battle')
 ]

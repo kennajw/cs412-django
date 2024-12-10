@@ -8,6 +8,11 @@ html {
     overflow: hidden;
 }
 
+.main-title {
+    letter-spacing: 5px;
+    font-size: 100px;
+}
+
 h1 {
     font-size:68px;
 }
@@ -20,15 +25,365 @@ h3 {
     font-size: 38px;
 }
 
+h4 {
+    font-size: 28px;
+}
+
 label {
     font-size: 24px;
 }
 
 a {
     text-decoration: none;
+    color: #FFF;
 }
 
-h1, h2, h3, p, label {
+.menu-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 280px;
+    text-align: center;
+    margin: 10px;
+    height: 70px;
+}
+
+.settings-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    margin: 10px;
+    height: 70px;
+}
+
+.button-container-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.button-container-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    /* height: 100vh; */
+}
+
+.character-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 10px;
+    width: 350px;
+    padding: 5px;
+}
+
+.character-card h1 {
+    padding: 10px;
+    margin: 0px;
+}
+
+.character-card h2 {
+    padding: 5px;
+    margin: 0px;
+}
+
+.character-card h3 {
+    padding: 5px;
+    margin: 0px;
+}
+
+.achievement-card {
+    display: flex;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+.achievement-card h2 {
+    padding: 5px;
+    margin: 0px;
+}
+
+.achievement-card h4 {
+    padding: 5px;
+    margin: 0px;
+}
+
+.item-card {
+    display: flex;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+.item-card h2 {
+    padding: 5px;
+    margin: 0px;
+}
+
+.item-card h3 {
+    padding: 5px;
+    margin: 0px;
+}
+
+.item-col {
+    flex-direction: column;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-specs {
+    display: flex;
+    flex-direction: row;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.center-container h3 {
+    padding: 5px;
+    margin: 0;
+}
+
+.center-container h2 {
+    padding: 5px;
+    margin: 0;
+}
+
+.center-container h1 {
+    padding: 5px;
+    margin-top: 45px;
+    margin-bottom: 0;
+}
+
+.center-container-home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.battle-container {
+    margin-top: 45px; 
+}
+
+.attack-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 170px;
+    height: 70px;
+}
+
+.enemy-attack-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 320px;
+    height: 70px;
+}
+
+.back-home-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 280px;
+    height: 70px;
+}
+
+.back-menu-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 350px;
+    height: 70px;
+}
+
+button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 280px;
+    text-align: center;
+    margin: 10px;
+    height: 70px;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 30px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    color: #13151f;
+    resize: none;
+    margin: 10px;
+    font-family: Ancient-Modern-Tales;
+    font-size: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 30px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    color: #13151f;
+    resize: none;
+    margin: 10px;
+    font-family: Ancient-Modern-Tales;
+    font-size: 20px;
+}
+
+input[type="password"] {
+    width: 100%;
+    height: 30px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    color: #13151f;
+    resize: none;
+    margin: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.back-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 100px;
+    height: 70px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.item-battle {
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 200px;
+    height: 120px;
+}
+
+.item-battle h3 {
+    margin: 0;
+    padding: 5px;
+}
+
+.buy-button {
+    display: flex;
+    padding: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    width: 80px;
+    text-align: center;
+    height: 70px;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style-type: none;
+    font-size: 20px;
+    font-family: Ancient-Modern-Tales;
+    color: #FFF;
+    background-color: #13151f;
+    margin: 0;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10; 
+    margin-bottom: 10px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    /* text-align: center;
+    align-items: center; */
+}
+
+h1, h2, h3, h4, p, label {
     color: #FFF;
     font-family: Ancient-Modern-Tales;
     letter-spacing: .2rem;
@@ -36,11 +391,71 @@ h1, h2, h3, p, label {
 
 img {
     width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.enemy-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+.character-bar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.character-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #13151f;
+    border: 3px solid #FFF;
+    border-radius: 10px;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+.name-img-hp {
+    display: flex;
+    flex-direction: column;
 }
 
 .scrollable {
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
-    height: 500px;
+    /* height: 100vh; */
+    height: 700px;
+}
+
+.battle-scrollable {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    /* height: 100vh; */
+    height: 400px;
+}
+
+.horiz-scrollable {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    width: auto;
 }
   
   #stars {

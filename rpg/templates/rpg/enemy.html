@@ -6,23 +6,25 @@
 {% block content %}
 
 {% for message in messages %}
-    <h3>{{message}}</h3>
+    <h3>**{{message}}**</h3>
 {% endfor %}
 
-<div class="enemy-bar">
-    <h3>{{enemy.name}}</h3>
-    <img src="{{enemy.img.url}}" alt="{{enemy.name}}">
-    <h3>{{enemy.difficulty}}</h3>
-    <h3>{{enemy.hp}}/{{enemy.total_hp}}</h3>
-</div>
-
-<div class="player-battle">
-    <div class="name-img-hp">
-        <h2>{{character.name}} - {{character.hp}}/{{character.hp_total}}</h2>
-        <img src="{{character.img.url}}" alt="{{character.name}}">
+<div class="battle-container">
+    <div class="enemy-bar">
+        <h3>{{enemy.name}} - {{battle.enemy_hp}}/{{enemy.hp}}</h3>
+        <img src="{{enemy.img.url}}" alt="{{enemy.name}}">
     </div>
-    <div class="button-container">
-        <a href="{% url 'enemy_attack' character.pk enemy.pk %}"><h2>enemy's attack!</h2></a>
+    
+    <div class="character-bar-container">
+        <div class="character-bar">
+            <div class="name-img-hp">
+                <h2>{{character.name}} - {{battle.player_hp}}/{{character.hp}}</h2>
+                <img src="{{character.img.url}}" alt="{{character.name}}">
+            </div>
+            <div class="enemy-attack-button">
+                <a href="{% url 'enemy_attack' character.pk enemy.pk %}"><h2>enemy's attack!</h2></a>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -12,7 +12,6 @@ class Character(models.Model):
     img = models.ImageField(blank=False)
     level = models.IntegerField(blank=False)
     hp = models.IntegerField(blank=False)
-    hp_total = models.IntegerField(blank=False)
     coins = models.IntegerField(blank=False)
     exp = models.IntegerField(blank=False)
     attack = models.IntegerField(blank=False)
@@ -112,11 +111,23 @@ class Enemy(models.Model):
     img = models.ImageField(blank=False)
     difficulty = models.TextField(blank=False)
     hp = models.IntegerField(blank=False)
-    total_hp = models.IntegerField(blank=False)
     attack = models.IntegerField(blank=False)
     coin_reward = models.IntegerField(blank=False)
     exp_reward = models.IntegerField(blank=False)
 
     def __str__(self):
         return f'{self.name} - {self.difficulty}'
-    
+
+class Battle(models.Model):
+    ''' encapsulate a battle between a character and an enemy in the rpg '''
+
+    # battle information
+    enemy_hp = models.IntegerField(blank=False)
+    player_hp = models.IntegerField(blank=False) 
+
+    # foreign keys
+    char = models.ForeignKey(Character, on_delete=models.CASCADE)
+    enemy = models.ForeignKey(Enemy, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.char} vs. {self.enemy}' 
