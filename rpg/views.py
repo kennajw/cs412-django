@@ -682,6 +682,10 @@ class UseItemView(LoginRequiredMixin, View):
                 # save the achievement
                 ach.save()
 
+            # update number of enemies defeated and save
+            character.enemies_defeated += 1
+            character.save()
+            
             # delete the battle
             battle.delete()
 
