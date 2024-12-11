@@ -1,3 +1,6 @@
+/* /static/rpg.css */
+/* anything used within this project from other sources was available for free and personal use! */
+/* Ancient Modern Tales by Chequered Ink from fontspace */
 @font-face {
     font-family: Ancient-Modern-Tales;
     src: url(fonts/AncientModernTales-a7Po.ttf);
@@ -458,6 +461,7 @@ img {
     width: auto;
 }
   
+/* Pure CSS Parallax Pixel Stars by MattMarble from codepen.io */
   #stars {
     width: 1px;
     height: 1px;
